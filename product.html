@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ANIS LUXURY | تفاصيل الطلب</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&family=Marcellus&display=swap" rel="stylesheet">
+    
+    <style>
+        body { background: #050505; color: #e5e5e5; font-family: 'Cairo', sans-serif; overflow-x: hidden; }
+        .font-luxury { font-family: 'Marcellus', serif; }
+        
+        /* تأثيرات الإدخال (Floating Labels) */
+        .input-field { background: transparent; border: 1px solid #333; transition: all 0.3s; }
+        .input-field:focus { border-color: #f59e0b; outline: none; box-shadow: 0 0 10px rgba(245, 158, 11, 0.1); }
+        
+        /* خيارات الـ Upsell */
+        .offer-box { border: 1px solid #333; transition: all 0.3s; cursor: pointer; }
+        .offer-box.active { border-color: #f59e0b; background: rgba(245, 158, 11, 0.05); transform: scale(1.02); }
+        .offer-box:hover:not(.active) { border-color: #666; }
+
+        /* تغيير لون الدائرة المحددة */
+        .color-swatch.active { border: 2px solid #f59e0b; transform: scale(1.1); }
+        
+        /* إخفاء شريط التمرير */
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+    </style>
+</head>
+<body class="antialiased pb-20">
+
+    <!-- Navbar -->
+    <nav class="w-full border-b border-white/10 bg-[#050505] p-4 flex justify-between items-center sticky top-0 z-50">
+        <a href="javascript:history.back()" class="flex items-center gap-2 text-stone-400 hover:text-white transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L6 12m0 0l7.5 7.5M6 12h18" /></svg>
+            <span class="text-xs font-bold uppercase tracking-widest">رجوع</span>
+        </a>
+        <h1 class="font-luxury text-xl tracking-[0.3em] text-white uppercase">ANIS</h1>
+        <div class="w-16"></div> <!-- للتوازن -->
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 py-8 md:py-12 flex flex-col md:flex-row gap-8 md:gap-16">
+        
+        <!-- قسم الصورة (يلصق في الشاشات الكبيرة) -->
+        <div class="w-full md:w-1/2">
+            <div class="sticky top-24">
+                <div class="aspect-square bg-[#0a0a0a] overflow-hidden relative group border border-white/5">
+                    <img id="product-img" src="" alt="Product" class="w-full h-full object-cover object-center transform transition-transform duration-700">
+                    <!-- لوجو عائم خفيف فوق الصورة -->
+                    <div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-10">
+                        <span class="font-luxury text-4xl md:text-6xl tracking-[0.5em] uppercase text-white transform -rotate-45">ANIS LUXURY</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم المعلومات والفورم -->
+        <div class="w-full md:w-1/2 flex flex-col">
+            
+            <div class="mb-8 border-b border-white/10 pb-6">
+                <span id="product-brand" class="text-xs tracking-[0.3em] text-amber-500 uppercase font-bold mb-2 block">MARQUE</span>
+                <h1 id="product-name" class="text-3xl md:text-4xl font-black text-white mb-4">اسم الموديل</h1>
+                <p id="product-price" class="text-2xl font-bold text-stone-300">0 DA</p>
+            </div>
+
+            <!-- اختيار اللون -->
+            <div class="mb-8">
+                <h3 class="text-xs text-stone-400 mb-3 tracking-widest uppercase">اختر اللون (Couleur):</h3>
+                <div id="color-options" class="flex gap-4">
+                    <!-- تتولد ديناميكيا -->
+                </div>
+            </div>
+
+            <!-- استراتيجية الـ Upsell (عروض الكمية) -->
+            <div class="mb-8">
+                <h3 class="text-xs text-stone-400 mb-3 tracking-widest uppercase">العروض الحصرية (Offres):</h3>
+                <div class="flex flex-col gap-3">
+                    
+                    <!-- عرض حبة واحدة -->
+                    <div class="offer-box active p-4 relative" onclick="selectOffer(1, this)">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-sm">نظارة واحدة (1x)</span>
+                            <span class="text-amber-500 font-bold text-sm offer-price" data-qty="1"></span>
+                        </div>
+                    </div>
+
+                    <!-- عرض حبتين (Best Seller) -->
+                    <div class="offer-box p-4 relative overflow-hidden" onclick="selectOffer(2, this)">
+                        <div class="absolute top-0 right-0 bg-amber-500 text-black text-[9px] font-black px-2 py-1 uppercase">الأكثر طلباً</div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="font-bold text-sm block">نظارتين (2x) - تخفيض 1500 دج</span>
+                                <span class="text-[10px] text-stone-400">+ توصيل مجاني</span>
+                            </div>
+                            <span class="text-amber-500 font-bold text-sm offer-price" data-qty="2"></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- استراتيجية الـ Cross-sell (العلبة الفاخرة) -->
+            <div class="mb-8 bg-[#0a0a0a] p-4 border border-white/5 flex items-start gap-4 cursor-pointer hover:border-white/20 transition-colors" onclick="toggleBox()">
+                <div class="pt-1">
+                    <input type="checkbox" id="box-checkbox" class="w-4 h-4 accent-amber-500 pointer-events-none">
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold text-white">أضف علبة النظارات الفاخرة (+800 دج)</h4>
+                    <p class="text-[10px] text-stone-400 mt-1">علبة جلدية أصلية تحمي نظارتك وتعطيها طابعاً مميزاً جداً.</p>
+                </div>
+            </div>
+
+            <!-- ملخص السعر النهائي (يتغير ديناميكيا) -->
+            <div class="mb-10 p-4 border-t border-b border-amber-500/30 bg-amber-500/5 flex justify-between items-center">
+                <span class="font-bold text-sm">السعر الإجمالي للطلب:</span>
+                <span id="final-total" class="text-xl font-black text-amber-500">0 DA</span>
+            </div>
+
+            <!-- فورم الدفع الإحترافي -->
+            <div class="bg-[#0a0a0a] p-6 md:p-8 border border-white/5 relative">
+                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-amber-500 text-black text-[10px] font-black px-4 py-1 uppercase tracking-widest">معلومات التوصيل</div>
+                
+                <form id="checkout-form" class="flex flex-col gap-5 mt-4" onsubmit="processOrder(event)">
+                    
+                    <input type="text" id="name" required placeholder="الاسم الكامل" class="input-field w-full p-3 text-sm text-white placeholder-stone-600">
+                    
+                    <div class="flex gap-4">
+                        <input type="tel" id="phone1" required placeholder="رقم الهاتف الأساسي" class="input-field w-1/2 p-3 text-sm text-white placeholder-stone-600" dir="ltr">
+                        <input type="tel" id="phone2" placeholder="رقم هاتف إضافي (اختياري)" class="input-field w-1/2 p-3 text-sm text-white placeholder-stone-600" dir="ltr">
+                    </div>
+
+                    <div class="flex gap-4">
+                        <select id="wilaya" required class="input-field w-1/2 p-3 text-sm text-white bg-[#0a0a0a]">
+                            <option value="">اختر الولاية...</option>
+                            <!-- الولايات تتولد بالجافاسكريبت -->
+                        </select>
+                        <input type="text" id="commune" required placeholder="البلدية" class="input-field w-1/2 p-3 text-sm text-white placeholder-stone-600">
+                    </div>
+
+                    <input type="text" id="note" placeholder="ملاحظات حول الطلب (اختياري)" class="input-field w-full p-3 text-sm text-white placeholder-stone-600">
+
+                    <!-- ميثاق الأمانة (Psychological Trigger) -->
+                    <div class="mt-4 p-4 border border-stone-800 bg-[#050505]">
+                        <label class="flex items-start gap-3 cursor-pointer">
+                            <input type="checkbox" required class="mt-1 w-4 h-4 accent-amber-500">
+                            <div>
+                                <p class="text-xs font-bold text-white mb-1">أقسم بالله العلي العظيم أنني جاد في طلبي وسأستلم السلعة عند وصولها.</p>
+                                <p class="text-[10px] text-amber-500/80 leading-relaxed font-light font-luxury text-center mt-2 border-t border-stone-800 pt-2">
+                                    ۞ إِنَّ اللَّهَ يَأْمُرُكُمْ أَن تُؤَدُّوا الْأَمَانَاتِ إِلَىٰ أَهْلِهَا ۞
+                                </p>
+                            </div>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="w-full mt-4 bg-amber-500 hover:bg-amber-400 text-black py-4 font-black text-sm tracking-widest uppercase transition-colors">
+                        تأكيد الطلب الآن
+                    </button>
+                    <p class="text-center text-[10px] text-stone-500 mt-2">الدفع يكون يداً بيد عند استلام السلعة.</p>
+
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // 1. استيراد نفس قاعدة البيانات (لضمان عمل النظام بدون سيرفر حقيقي حالياً)
+        const inventory = [
+            { id: 'RB-AV-01', name: 'Ray-Ban Aviator Classic', brand: 'Ray-Ban', price: 4500, colors: [
+                { name: 'Black', hex: '#000000', img: 'images/prod1-black.jpg' },
+                { name: 'Gold', hex: '#d4af37', img: 'images/prod1-gold.jpg' }
+            ]},
+            { id: 'CR-SP-02', name: 'Carrera Sport', brand: 'Carrera', price: 5200, colors: [
+                { name: 'Blue', hex: '#1e3a8a', img: 'images/prod2-blue.jpg' },
+                { name: 'Black', hex: '#000000', img: 'images/prod2-black.jpg' }
+            ]},
+            // انسخ بقية منتجاتك هنا بنفس الطريقة...
+        ];
+
+        // 2. قراءة الآيدي من الرابط
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+        const product = inventory.find(p => p.id === productId);
+
+        // متغيرات سلة المشتريات
+        let selectedColor = '';
+        let basePrice = 0;
+        let qty = 1;
+        let discount = 0;
+        let hasBox = false;
+        const boxPrice = 800;
+
+        if (product) {
+            // تعبئة البيانات
+            basePrice = product.price;
+            document.getElementById('product-brand').innerText = product.brand;
+            document.getElementById('product-name').innerText = product.name;
+            document.getElementById('product-price').innerText = formatPrice(basePrice);
+            document.getElementById('product-img').src = product.colors[0].img;
+            selectedColor = product.colors[0].name;
+
+            // حساب عروض הUpsell
+            document.querySelector('.offer-price[data-qty="1"]').innerText = formatPrice(basePrice);
+            document.querySelector('.offer-price[data-qty="2"]').innerText = formatPrice((basePrice * 2) - 1500);
+
+            // توليد دوائر الألوان
+            const colorsContainer = document.getElementById('color-options');
+            product.colors.forEach((c, index) => {
+                const isActive = index === 0 ? 'active' : '';
+                colorsContainer.innerHTML += `
+                    <div class="color-swatch w-6 h-6 rounded-full cursor-pointer transition-all ${isActive}" 
+                         style="background-color: ${c.hex};" 
+                         onclick="selectColor(this, '${c.name}', '${c.img}')">
+                    </div>
+                `;
+            });
+            
+            updateTotal();
+        } else {
+            // إذا لم يجد المنتج
+            document.body.innerHTML = '<h1 class="text-white text-center mt-20">عذراً، المنتج غير موجود.</h1>';
+        }
+
+        // 3. دوال التفاعل (Interactiveness)
+        function formatPrice(num) {
+            return num.toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, ",") + ' DA';
+        }
+
+        window.selectColor = function(element, colorName, imgSrc) {
+            selectedColor = colorName;
+            document.getElementById('product-img').src = imgSrc;
+            const swatches = element.parentElement.children;
+            for(let s of swatches) s.classList.remove('active');
+            element.classList.add('active');
+        }
+
+        window.selectOffer = function(selectedQty, element) {
+            qty = selectedQty;
+            discount = qty === 2 ? 1500 : 0;
+            
+            const offers = document.querySelectorAll('.offer-box');
+            offers.forEach(o => o.classList.remove('active'));
+            element.classList.add('active');
+            
+            updateTotal();
+        }
+
+        window.toggleBox = function() {
+            const checkbox = document.getElementById('box-checkbox');
+            checkbox.checked = !checkbox.checked;
+            hasBox = checkbox.checked;
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let total = (basePrice * qty) - discount;
+            if (hasBox) total += boxPrice;
+            document.getElementById('final-total').innerText = formatPrice(total);
+        }
+
+        // 4. توليد قائمة الـ 58 ولاية
+        const wilayas = [
+            "01 - أدرار", "02 - الشلف", "03 - الأغواط", "04 - أم البواقي", "05 - باتنة", "06 - بجاية", "07 - بسكرة", "08 - بشار", "09 - البليدة", "10 - البويرة",
+            "11 - تمنراست", "12 - تبسة", "13 - تلمسان", "14 - تيارت", "15 - تيزي وزو", "16 - الجزائر", "17 - الجلفة", "18 - جيجل", "19 - سطيف", "20 - سعيدة",
+            "21 - سكيكدة", "22 - سيدي بلعباس", "23 - عنابة", "24 - قالمة", "25 - قسنطينة", "26 - المدية", "27 - مستغانم", "28 - المسيلة", "29 - معسكر", "30 - ورقلة",
+            "31 - وهران", "32 - البيض", "33 - إليزي", "34 - برج بوعريريج", "35 - بومرداس", "36 - الطارف", "37 - تندوف", "38 - تسمسيلت", "39 - الوادي", "40 - خنشلة",
+            "41 - سوق أهراس", "42 - تيبازة", "43 - ميلة", "44 - عين الدفلى", "45 - النعامة", "46 - عين تموشنت", "47 - غرداية", "48 - غليزان", "49 - تيميمون", "50 - برج باجي مختار",
+            "51 - أولاد جلال", "52 - بني عباس", "53 - إن صالح", "54 - إن قزام", "55 - تقرت", "56 - جانت", "57 - المغير", "58 - المنيعة"
+        ];
+        const wilayaSelect = document.getElementById('wilaya');
+        wilayas.forEach(w => {
+            wilayaSelect.innerHTML += `<option value="${w}">${w}</option>`;
+        });
+
+        // 5. نظام معالجة الطلب (Submission)
+        window.processOrder = function(e) {
+            e.preventDefault(); // نمنع إعادة تحميل الصفحة
+            
+            // جمع البيانات في كيس واحد
+            const orderData = {
+                model: product.name,
+                brand: product.brand,
+                color: selectedColor,
+                offer: qty === 1 ? '1x' : '2x',
+                with_box: hasBox ? 'Oui' : 'Non',
+                total_price: ((basePrice * qty) - discount) + (hasBox ? boxPrice : 0),
+                name: document.getElementById('name').value,
+                phone1: document.getElementById('phone1').value,
+                phone2: document.getElementById('phone2').value || '---',
+                wilaya: document.getElementById('wilaya').value,
+                commune: document.getElementById('commune').value,
+                note: document.getElementById('note').value || '---'
+            };
+
+            // نحفظ البيانات في المتصفح مؤقتاً لنأخذها لصفحة الشكر
+            localStorage.setItem('recentOrder', JSON.stringify(orderData));
+            
+            // نوجه الزبون لصفحة الشكر والواتساب
+            window.location.href = 'thank-you.html';
+        }
+    </script>
+</body>
+</html>
