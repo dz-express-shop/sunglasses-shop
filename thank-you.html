@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ANIS LUXURY | شكراً لطلبك</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body { background-color: #FAFAFA; color: #111111; font-family: 'Cairo', sans-serif; }
+        
+        /* حركة الظهور الناعمة (Fade In Up) */
+        .fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0; transform: translateY(30px);
+        }
+        
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* زر الواتساب النابض */
+        .pulse-whatsapp {
+            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+            animation: pulseGreen 2s infinite;
+        }
+        
+        @keyframes pulseGreen {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-6">
+
+    <div class="max-w-lg w-full bg-white p-8 md:p-12 border border-stone-200 shadow-2xl text-center fade-in-up" style="animation-delay: 0.1s;">
+        
+        <!-- أيقونة النجاح -->
+        <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+        </div>
+
+        <h1 class="text-3xl font-black text-stone-900 mb-2 uppercase tracking-tight">تم تسجيل طلبك بنجاح!</h1>
+        <p class="text-sm font-bold text-stone-500 mb-8">مرحباً <span id="customer-name" class="text-amber-600">---</span>، طلبك الآن قيد المعالجة.</p>
+
+        <!-- ملخص سريع للطلب -->
+        <div class="bg-stone-50 p-5 border border-stone-200 mb-8 text-right space-y-3">
+            <h3 class="text-xs font-bold uppercase tracking-widest text-stone-400 border-b border-stone-200 pb-2 mb-3">تفاصيل الطلبية:</h3>
+            <div class="flex justify-between text-sm">
+                <span class="font-bold text-stone-600">المنتج:</span>
+                <span class="font-bold text-black" id="order-model">Cartier Classic</span>
+            </div>
+            <div class="flex justify-between text-sm">
+                <span class="font-bold text-stone-600">اللون المختـار:</span>
+                <span class="font-bold text-black" id="order-color">---</span>
+            </div>
+            <div class="flex justify-between text-sm">
+                <span class="font-bold text-stone-600">الولايـــة:</span>
+                <span class="font-bold text-black" id="order-wilaya">---</span>
+            </div>
+            <div class="flex justify-between text-sm pt-2 border-t border-stone-200 mt-2">
+                <span class="font-black text-stone-800">المبلغ الإجمالي (عند الاستلام):</span>
+                <span class="font-black text-amber-600 text-lg" id="order-total">---</span>
+            </div>
+        </div>
+
+        <!-- الخطوة الأخيرة (The CTA) -->
+        <div class="space-y-4">
+            <h4 class="text-sm font-black text-stone-900">🚀 خطوة أخيرة لتسريع الشحن</h4>
+            <p class="text-xs text-stone-500 leading-relaxed mb-4">
+                لتفادي انتظار اتصال فريقنا، يمكنك تأكيد طلبيتك بنفسك الآن عبر الواتساب، وسنقوم بشحنها اليوم مباشرة!
+            </p>
+            
+            <a href="#" id="whatsapp-btn" class="flex items-center justify-center gap-3 w-full bg-[#25D366] text-white py-4 font-bold text-sm uppercase tracking-widest hover:bg-[#1EBE57] transition-colors pulse-whatsapp shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12.031 0C5.385 0 0 5.385 0 12.031c0 2.645.69 5.225 2.001 7.494L.645 24l4.636-1.311a12.022 12.022 0 0 0 6.75 2.041c6.646 0 12.03-5.385 12.03-12.03C24.06 5.385 18.676 0 12.031 0zm0 22.753a9.98 9.98 0 0 1-5.093-1.39l-.365-.217-3.793 1.071 1.013-3.7-.238-.378a9.985 9.985 0 0 1-1.543-5.32c0-5.526 4.496-10.022 10.02-10.022 5.524 0 10.02 4.496 10.02 10.022 0 5.527-4.496 10.022-10.02 10.022zm5.498-7.505c-.301-.151-1.782-.88-2.059-.98-.277-.101-.48-.152-.68.151-.202.302-.781.98-.957 1.18-.176.202-.353.227-.654.076-.302-.151-1.272-.469-2.423-1.498-.895-.798-1.501-1.785-1.677-2.087-.176-.302-.018-.466.133-.616.135-.135.302-.353.453-.53.151-.176.202-.301.302-.503.101-.202.05-.378-.025-.53-.075-.152-.68-1.64-.931-2.247-.245-.591-.493-.51-.68-.52-.176-.008-.378-.008-.58-.008-.202 0-.53.076-.807.378-.277.302-1.059 1.034-1.059 2.52 0 1.486 1.084 2.923 1.235 3.125.151.202 2.13 3.253 5.161 4.56.721.31 1.284.495 1.724.634.724.23 1.383.197 1.902.12.583-.087 1.782-.729 2.034-1.435.252-.705.252-1.309.176-1.435-.075-.126-.277-.202-.578-.353z"/>
+                </svg>
+                تأكيد الطلب عبر الواتساب
+            </a>
+            
+            <p class="text-[10px] text-stone-400 mt-4">
+                إذا لم تقم بالتأكيد، سنتصل بك قريباً من أحد أرقامنا: 0791059501 أو 0776764125
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        // 1. استرجاع البيانات المحفوظة من صفحة المنتج
+        const orderDataJSON = localStorage.getItem('currentOrder');
+        
+        if (orderDataJSON) {
+            const order = JSON.parse(orderDataJSON);
+            
+            // 2. تعبئة ملخص الطلب في الشاشة
+            document.getElementById('customer-name').innerText = order.name.split(' ')[0] || order.name; // أخذ الاسم الأول فقط للمودة
+            document.getElementById('order-color').innerText = order.color;
+            document.getElementById('order-wilaya').innerText = order.wilaya;
+            document.getElementById('order-total').innerText = order.totalPaid.toLocaleString() + ' دج';
+
+            // 3. بناء رسالة الواتساب الذكية والمخصصة
+            const phoneNumber = "213791059501"; // رقمك الأساسي (بدون الصفر الأول)
+            const message = `مرحباً بك، أنا ${order.name} من ولاية ${order.wilaya.split('-')[1].trim()}.
+قمت بطلب نظارات Cartier Classic (لون: ${order.color}) בעرض (${order.offerSelected}).
+المبلغ الإجمالي هو: ${order.totalPaid.toLocaleString()} دج.
+أريد تأكيد طلبي لتسريع عملية الشحن، شكراً!`;
+
+            // 4. تشفير الرسالة وتوليد الرابط (URL Encoding)
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            
+            // وضع الرابط في الزر
+            document.getElementById('whatsapp-btn').href = whatsappUrl;
+            
+        } else {
+            // في حال الدخول المباشر للصفحة بدون طلب مسبق
+            document.getElementById('customer-name').innerText = "ضيفنا الكريم";
+            document.getElementById('whatsapp-btn').href = "https://wa.me/213791059501";
+        }
+    </script>
+</body>
+</html>
