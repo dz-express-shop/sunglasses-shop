@@ -2,131 +2,244 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANIS LUXURY | تجربة الشراء</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ANIS LUXURY | تفاصيل الموديل</title>
+    <!-- Tailwind & Alpine.js (The Brains) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
     <style>
-        body { background: #F8F8F8; color: #111; font-family: 'Cairo', sans-serif; }
-        .snap-scroll { scroll-snap-type: x mandatory; }
-        .snap-item { scroll-snap-align: center; }
-        .input-pro { background: #ffffff; border: 1px solid #e5e5e5; padding: 15px; width: 100%; transition: 0.3s; }
-        .input-pro:focus { border-color: #d97706; outline: none; }
-        .oath-box:has(input:checked) { border-color: #d97706; background: #fffbeb; }
+        body { background-color: #FAFAFA; color: #111111; font-family: 'Cairo', sans-serif; overflow-x: hidden; }
+        
+        /* نظام السحب الذكي للصور */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .snap-x-mandatory { scroll-snap-type: x mandatory; scroll-behavior: smooth; }
+        .snap-center { scroll-snap-align: center; }
+
+        /* مدخلات الفورم الفاخرة */
+        .lux-input { background: #FFFFFF; border: 1px solid #E5E5E5; padding: 16px; width: 100%; transition: 0.3s; font-weight: 600; }
+        .lux-input:focus { border-color: #D97706; outline: none; box-shadow: 0 0 0 3px rgba(217,119,6,0.1); }
+        
+        /* ميثاق الأمانة */
+        .oath-box { border: 1px solid #E5E5E5; background: #FFFFFF; transition: 0.3s; }
+        .oath-box:has(input:checked) { border-color: #D97706; background: #FFFBEB; }
+        
+        /* سويتش العلبة (Smart Switch RTL) */
+        .toggle-bg { transition: background-color 0.3s ease; }
+        .toggle-circle { transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); }
+        input:checked ~ .toggle-bg { background-color: #D97706; }
+        input:checked ~ .toggle-circle { transform: translateX(-100%); } /* RTL Translation */
     </style>
 </head>
-<body x-data="shopLogic()">
+<body x-data="shopLogic()" class="antialiased pb-24">
 
-    <!-- Header -->
-    <nav class="sticky top-0 bg-[#F8F8F8]/90 backdrop-blur-md z-50 p-6 flex justify-between border-b border-stone-200">
-        <a href="catalog.html" class="font-bold text-xs">← العودة</a>
-        <h1 class="font-bold tracking-[0.2em]">ANIS LUXURY</h1>
-        <div class="w-10"></div>
+    <!-- نافيغايشن نظيف -->
+    <nav class="sticky top-0 bg-white/90 backdrop-blur-md z-50 border-b border-stone-100 shadow-sm">
+        <div class="max-w-6xl mx-auto p-5 flex justify-between items-center">
+            <a href="javascript:history.back()" class="font-bold text-xs text-stone-500 hover:text-black transition-colors uppercase tracking-widest">← رجوع</a>
+            <h1 class="font-black tracking-[0.3em] text-lg uppercase">ANIS LUXURY</h1>
+            <div class="w-12"></div>
+        </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto p-4 md:p-8 grid md:grid-cols-2 gap-12">
+    <main class="max-w-6xl mx-auto p-4 md:p-8 grid md:grid-cols-2 gap-10 md:gap-16 mt-4">
         
-        <!-- الصور (Horizontal Snap Scroll) -->
-        <section class="flex flex-col gap-4">
-            <div class="snap-scroll flex overflow-x-auto gap-4 pb-4 w-full">
-                <img src="images/prod1.jpg" class="snap-item w-full md:w-[500px] aspect-square object-cover shadow-xl">
-                <img src="images/prod2.jpg" class="snap-item w-full md:w-[500px] aspect-square object-cover shadow-xl">
+        <!-- القسم الأيسر: معرض الصور بالسحب -->
+        <section class="flex flex-col gap-3 relative">
+            <div class="flex overflow-x-auto snap-x-mandatory hide-scrollbar gap-4 w-full rounded-sm">
+                <!-- الصور: استبدل المسارات بصور النظارات الخاصة بك -->
+                <img src="images/prod1-front.jpg" class="snap-center shrink-0 w-full md:w-[90%] aspect-square object-cover shadow-sm bg-stone-100" alt="صورة أمامية">
+                <img src="images/prod1-side.jpg" class="snap-center shrink-0 w-full md:w-[90%] aspect-square object-cover shadow-sm bg-stone-100" alt="صورة جانبية">
+                <img src="images/prod1-details.jpg" class="snap-center shrink-0 w-full md:w-[90%] aspect-square object-cover shadow-sm bg-stone-100" alt="تفاصيل">
             </div>
-            <p class="text-[10px] text-stone-400 uppercase tracking-widest text-center">سحب لليسار لرؤية التفاصيل</p>
+            <!-- مؤشر السحب -->
+            <div class="flex justify-center items-center gap-2 mt-2 opacity-50">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
+                <p class="text-[10px] font-bold uppercase tracking-widest">اسحب لليمين واليسار للصور</p>
+            </div>
         </section>
 
-        <!-- الخيارات والطلب -->
+        <!-- القسم الأيمن: الخيارات والذكاء الاصطناعي -->
         <section class="space-y-8">
-            <div>
-                <h1 class="text-4xl font-black uppercase">Cartier Signature</h1>
-                <p class="text-2xl font-bold mt-2 text-amber-600" x-text="formatPrice(totalPrice)"></p>
+            
+            <!-- العنوان والسعر -->
+            <div class="border-b border-stone-200 pb-6">
+                <h1 class="text-3xl md:text-5xl font-black uppercase text-stone-900 tracking-tight">Cartier Classic</h1>
+                <div class="flex items-end gap-3 mt-3">
+                    <p class="text-3xl font-black text-amber-600" x-text="formatPrice(totalPrice)"></p>
+                    <!-- يظهر السعر المشطوب فقط إذا اختار العرض 2 -->
+                    <p x-show="offer === 2" class="text-lg text-stone-400 line-through mb-1" x-transition>10,600 دج</p>
+                </div>
             </div>
 
-            <!-- الألوان (Text Selection) -->
+            <!-- اختيار الألوان (نصوص فخمة) -->
             <div>
-                <label class="text-xs font-bold uppercase mb-3 block">اللون المتاح:</label>
-                <div class="flex gap-3">
-                    <template x-for="c in colors">
-                        <button @click="selectedColor = c" 
-                                :class="selectedColor === c ? 'bg-black text-white' : 'bg-white border border-black'"
-                                class="px-6 py-2 text-sm font-bold transition-all" x-text="c"></button>
+                <label class="text-xs font-bold uppercase tracking-widest text-stone-500 mb-3 block">اللون (Couleur):</label>
+                <div class="flex flex-wrap gap-3">
+                    <template x-for="color in colors" :key="color">
+                        <button @click="selectedColor = color" 
+                                :class="selectedColor === color ? 'bg-black text-white border-black' : 'bg-white text-stone-600 border-stone-200 hover:border-black'"
+                                class="px-6 py-3 text-sm font-bold border transition-all duration-300" 
+                                x-text="color"></button>
                     </template>
                 </div>
             </div>
 
-            <!-- العروض الذكية -->
+            <!-- العروض (الـ Upsell) -->
             <div class="space-y-3">
-                <div @click="setOffer(1)" :class="offer === 1 ? 'border-amber-600 bg-amber-50' : 'border-stone-300'" class="p-4 border cursor-pointer">
-                    <p class="font-bold">نظارة واحدة - <span class="text-stone-500 font-normal">9,500 دج</span></p>
-                </div>
-                <div @click="setOffer(2)" :class="offer === 2 ? 'border-amber-600 bg-amber-50' : 'border-stone-300'" class="p-4 border cursor-pointer">
-                    <p class="font-bold">عرض 2 نظارات - <span class="text-stone-500 font-normal">16,000 دج (توصيل مجاني + علبة مجاناً)</span></p>
-                </div>
-            </div>
-
-            <!-- سويتش العلبة (Cross-sell) -->
-            <div class="flex justify-between items-center bg-white p-4 border border-stone-200">
-                <span class="font-bold text-sm">أضف علبة فاخرة (+800 دج)</span>
-                <input type="checkbox" x-model="box" :disabled="offer === 2" class="w-8 h-4">
-            </div>
-
-            <!-- الفورم (Advanced & Clean) -->
-            <form @submit.prevent="submitOrder" class="space-y-4">
-                <input type="text" x-model="formData.name" placeholder="الاسم الكامل" class="input-pro" required>
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="tel" x-model="formData.phone" placeholder="رقم الهاتف" class="input-pro" required>
-                    <select x-model="formData.wilaya" class="input-pro" required>
-                        <option value="">الولاية (58)</option>
-                        <option>16-الجزائر</option><option>05-باتنة</option>
-                    </select>
+                <label class="text-xs font-bold uppercase tracking-widest text-stone-500 mb-1 block">العروض الحصرية:</label>
+                
+                <!-- عرض 1 -->
+                <div @click="setOffer(1)" 
+                     :class="offer === 1 ? 'border-amber-500 ring-1 ring-amber-500 bg-white' : 'border-stone-200 bg-stone-50'" 
+                     class="p-5 border cursor-pointer transition-all flex justify-between items-center">
+                    <span class="font-bold text-sm">نظارة واحدة (1x)</span>
+                    <span class="text-stone-500 text-sm" x-text="formatPrice(basePrice)"></span>
                 </div>
                 
-                <!-- ميثاق الأمانة -->
-                <label class="oath-box flex items-start gap-4 p-4 cursor-pointer border">
-                    <input type="checkbox" required class="mt-1">
-                    <span class="text-[11px] font-bold">أقسم بالله العلي العظيم أنني جاد في طلبي وسأستلم السلعة.</span>
+                <!-- عرض 2 (الذكي) -->
+                <div @click="setOffer(2)" 
+                     :class="offer === 2 ? 'border-amber-500 ring-1 ring-amber-500 bg-white' : 'border-stone-200 bg-stone-50'" 
+                     class="p-5 border cursor-pointer transition-all relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-amber-500 text-black text-[9px] font-black px-3 py-1 uppercase tracking-widest">الأكثر طلباً</div>
+                    <div class="flex justify-between items-center mt-1">
+                        <div>
+                            <span class="font-bold text-sm block">نظارتين (2x)</span>
+                            <span class="text-[11px] text-amber-600 font-bold block mt-1">+ توصيل مجاني + علبة فاخرة مجاناً</span>
+                        </div>
+                        <span class="font-bold text-sm" x-text="formatPrice(offer2Price)"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- السويتش الذكي للعلبة (Cross-sell) -->
+            <div class="flex justify-between items-center bg-white p-5 border border-stone-200 shadow-sm" :class="offer === 2 ? 'bg-amber-50/50' : ''">
+                <div>
+                    <span class="font-bold text-sm block">العلبة الفاخرة</span>
+                    <span class="text-xs font-bold" :class="offer === 2 ? 'text-green-600' : 'text-stone-400'" x-text="offer === 2 ? 'مجاناً مع هذا العرض' : '+800 دج'"></span>
+                </div>
+                <!-- Switch UI -->
+                <label class="flex items-center cursor-pointer relative">
+                    <input type="checkbox" x-model="box" :disabled="offer === 2" class="sr-only">
+                    <div class="w-12 h-6 bg-stone-200 rounded-full toggle-bg border border-stone-300"></div>
+                    <div class="absolute right-1 top-1 bg-white w-4 h-4 rounded-full transition toggle-circle shadow-sm"></div>
+                </label>
+            </div>
+
+            <!-- الفورم الخارق و الـ 58 ولاية -->
+            <form @submit.prevent="submitOrder" class="space-y-4 pt-4 border-t border-stone-200">
+                <input type="text" x-model="formData.name" placeholder="الاسم واللقب" class="lux-input" required>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="tel" x-model="formData.phone" placeholder="رقم الهاتف (مثال: 0791059501)" class="lux-input" required dir="ltr" style="text-align: right;">
+                    
+                    <div class="relative">
+                        <select x-model="formData.wilaya" class="lux-input appearance-none bg-white cursor-pointer" required>
+                            <option value="">اختر الولاية...</option>
+                            <template x-for="w in wilayas" :key="w">
+                                <option :value="w" x-text="w"></option>
+                            </template>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-stone-500">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <input type="text" x-model="formData.commune" placeholder="البلدية / العنوان الدقيق" class="lux-input" required>
+                
+                <!-- ميثاق الأمانة الديني الإجباري -->
+                <label class="oath-box flex items-start gap-4 p-5 cursor-pointer rounded-sm mt-4">
+                    <input type="checkbox" required class="mt-1 w-5 h-5 accent-amber-600">
+                    <div>
+                        <p class="text-xs font-black text-stone-900 mb-1">أقسم بالله العلي العظيم أنني جاد في طلبي وسأستلم السلعة.</p>
+                        <p class="text-[10px] text-stone-500 leading-relaxed font-bold">
+                            ۞ إِنَّ اللَّهَ يَأْمُرُكُمْ أَن تُؤَدُّوا الْأَمَانَاتِ إِلَىٰ أَهْلِهَا ۞
+                        </p>
+                    </div>
                 </label>
 
-                <button type="submit" class="w-full bg-black text-white py-4 font-bold uppercase tracking-widest hover:bg-amber-600 transition-all">تأكيد الطلب</button>
+                <!-- زر التأكيد -->
+                <button type="submit" class="w-full bg-black text-white py-5 mt-4 font-black text-sm uppercase tracking-[0.2em] hover:bg-amber-600 transition-colors shadow-xl">
+                    تأكيد الطلب الآن
+                </button>
             </form>
         </section>
     </main>
 
+    <!-- The Brain (Logic) -->
     <script>
-        function shopLogic() {
-            return {
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('shopLogic', () => ({
+                // إعدادات المتجر
                 offer: 1,
                 box: false,
-                basePrice: 9500,
-                colors: ['أسود ملكي', 'ذهبي'],
-                selectedColor: 'أسود ملكي',
-                formData: { name: '', phone: '', wilaya: '' },
+                basePrice: 4500,
+                offer2Price: 7500, // السعر المخفض لعرض حبتين
+                boxPrice: 800,
                 
+                // خيارات الألوان
+                colors: ['أسود ملكي', 'بني كلاسيك', 'ذهبي مصقول'],
+                selectedColor: 'أسود ملكي',
+                
+                // بيانات الزبون
+                formData: { name: '', phone: '', wilaya: '', commune: '' },
+                
+                // قائمة 58 ولاية كاملة
+                wilayas: [
+                    "01 - أدرار", "02 - الشلف", "03 - الأغواط", "04 - أم البواقي", "05 - باتنة", "06 - بجاية", "07 - بسكرة", "08 - بشار", "09 - البليدة", "10 - البويرة",
+                    "11 - تمنراست", "12 - تبسة", "13 - تلمسان", "14 - تيارت", "15 - تيزي وزو", "16 - الجزائر", "17 - الجلفة", "18 - جيجل", "19 - سطيف", "20 - سعيدة",
+                    "21 - سكيكدة", "22 - سيدي بلعباس", "23 - عنابة", "24 - قالمة", "25 - قسنطينة", "26 - المدية", "27 - مستغانم", "28 - المسيلة", "29 - معسكر", "30 - ورقلة",
+                    "31 - وهران", "32 - البيض", "33 - إليزي", "34 - برج بوعريريج", "35 - بومرداس", "36 - الطارف", "37 - تندوف", "38 - تسمسيلت", "39 - الوادي", "40 - خنشلة",
+                    "41 - سوق أهراس", "42 - تيبازة", "43 - ميلة", "44 - عين الدفلى", "45 - النعامة", "46 - عين تموشنت", "47 - غرداية", "48 - غليزان", "49 - تيميمون", "50 - برج باجي مختار",
+                    "51 - أولاد جلال", "52 - بني عباس", "53 - إن صالح", "54 - إن قزام", "55 - تقرت", "56 - جانت", "57 - المغير", "58 - المنيعة"
+                ],
+
+                // المحرك الحسابي للسعر الإجمالي
                 get totalPrice() {
-                    let price = this.offer === 2 ? 16000 : (this.basePrice * this.offer);
-                    if (this.box && this.offer === 1) price += 800;
+                    let price = 0;
+                    if (this.offer === 1) {
+                        price = this.basePrice + (this.box ? this.boxPrice : 0);
+                    } else if (this.offer === 2) {
+                        price = this.offer2Price; // العلبة مجانية هنا
+                    }
                     return price;
                 },
                 
-                setOffer(q) {
-                    this.offer = q;
-                    if(q === 2) this.box = true; // أوتوماتيكي علبة مجانية
+                // ذكاء العروض
+                setOffer(selectedOffer) {
+                    this.offer = selectedOffer;
+                    if (selectedOffer === 2) {
+                        this.box = true; // تفعيل العلبة إجبارياً وبالمجان
+                    } else {
+                        this.box = false; // إعادة ضبط السويتش
+                    }
                 },
                 
-                formatPrice(p) { return p.toLocaleString() + ' دج'; },
+                formatPrice(num) { 
+                    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' دج'; 
+                },
                 
+                // معالجة البيانات والانتقال
                 submitOrder() {
-                    localStorage.setItem('orderData', JSON.stringify({
+                    const finalData = {
                         ...this.formData,
-                        price: this.totalPrice,
                         color: this.selectedColor,
-                        offer: this.offer
-                    }));
+                        offerSelected: this.offer === 1 ? '1x' : '2x',
+                        boxIncluded: this.box ? 'Oui' : 'Non',
+                        totalPaid: this.totalPrice
+                    };
+                    
+                    // حفظ الطلب في المتصفح لاستدعائه في صفحة الشكر
+                    localStorage.setItem('currentOrder', JSON.stringify(finalData));
+                    
+                    // توجيه الزبون
                     window.location.href = 'thank-you.html';
                 }
-            }
-        }
+            }))
+        })
     </script>
 </body>
 </html>
