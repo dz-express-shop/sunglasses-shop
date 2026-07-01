@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Sunglasses | Collection 2026</title>
+    <!-- Tailwind CSS v4 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-black text-white font-sans overflow-hidden h-screen m-0 select-none">
+
+    <!-- الحاوي الرئيسي المنقسم إلى نصفين -->
+    <div class="flex flex-col md:flex-row h-full w-full">
+        
+        <!-- جهة الرجال - FOR HIM -->
+        <a href="catalog.html?side=homme" class="relative flex flex-col justify-end p-8 md:p-16 h-1/2 md:h-full md:w-1/2 group overflow-hidden border-b md:border-b-0 md:border-r border-stone-900">
+            <!-- تأثير التكبير التدريجي للصورة الخلفية -->
+            <div class="absolute inset-0 bg-cover bg-center transform scale-100 group-hover:scale-105 transition-transform duration-700" style="background-image: url('homme-banner.jpg');"></div>
+            <!-- طبقة تدرج أسود فخمة لضمان وضوح النص -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90 group-hover:opacity-75 transition-opacity duration-500"></div>
+            
+            <!-- النصوص والحركات -->
+            <div class="relative z-10 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                <span class="text-xs tracking-widest text-amber-500 uppercase font-bold mb-2 block">Premium Collection</span>
+                <h2 class="text-4xl md:text-6xl font-black tracking-tight mb-3 uppercase">FOR HIM</h2>
+                <p class="text-stone-300 text-xs md:text-sm max-w-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-75">
+                    اكتشف الفخامة والجاذبية مع تشكيلة النظارات الرجالية الأكثر مبيعاً في الجزائر.
+                </p>
+                <div class="mt-6 inline-flex items-center gap-2 text-xs md:text-sm font-bold tracking-wider uppercase border-b-2 border-white pb-1 w-fit">
+                    SHOP NOW 
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+
+        <!-- جهة النساء - FOR HER -->
+        <a href="catalog.html?side=femme" class="relative flex flex-col justify-end p-8 md:p-16 h-1/2 md:h-full md:w-1/2 group overflow-hidden">
+            <!-- تأثير التكبير التدريجي للصورة الخلفية -->
+            <div class="absolute inset-0 bg-cover bg-center transform scale-100 group-hover:scale-105 transition-transform duration-700" style="background-image: url('femme-banner.jpg');"></div>
+            <!-- طبقة تدرج أسود فخمة -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90 group-hover:opacity-75 transition-opacity duration-500"></div>
+            
+            <!-- النصوص والحركات -->
+            <div class="relative z-10 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                <span class="text-xs tracking-widest text-amber-500 uppercase font-bold mb-2 block">Premium Collection</span>
+                <h2 class="text-4xl md:text-6xl font-black tracking-tight mb-3 uppercase">FOR HER</h2>
+                <p class="text-stone-300 text-xs md:text-sm max-w-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-75">
+                    تألقي بأناقة ساحرة تناسب كل الأوقات مع أرقى الموديلات النسائية العالمية.
+                </p>
+                <div class="mt-6 inline-flex items-center gap-2 text-xs md:text-sm font-bold tracking-wider uppercase border-b-2 border-white pb-1 w-fit">
+                    SHOP NOW 
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                </div>
+            </div>
+        </a>
+
+    </div>
+
+</body>
+</html>
