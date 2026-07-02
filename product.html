@@ -10,21 +10,16 @@
     
     <style>
         body { background-color: #FAFAFA; color: #111111; font-family: 'Cairo', sans-serif; overflow-x: hidden; }
-        
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .snap-x-mandatory { scroll-snap-type: x mandatory; scroll-behavior: smooth; }
         .snap-center { scroll-snap-align: center; }
-
         .lux-input { background: #FFFFFF; border: 1px solid #E5E5E5; padding: 16px; width: 100%; transition: 0.3s; font-weight: 600; }
         .lux-input:focus { border-color: #D97706; outline: none; box-shadow: 0 0 0 3px rgba(217,119,6,0.1); }
-        
         .oath-box { border: 1px solid #E5E5E5; background: #FFFFFF; transition: 0.3s; }
         .oath-box:has(input:checked) { border-color: #D97706; background: #FFFBEB; }
-        
         .toggle-bg { transition: background-color 0.3s ease; }
         .toggle-circle { transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); }
-        
         @keyframes shimmer { 100% { transform: translateX(100%); } }
     </style>
 </head>
@@ -41,15 +36,17 @@
 
     <main class="max-w-6xl mx-auto p-4 md:p-8 grid md:grid-cols-2 gap-10 md:gap-16 mt-4">
         
-        <!-- القسم الأيسر: الصور -->
+        <!-- القسم الأيسر: الصور الأوتوماتيكية (لا نهائية) -->
         <section class="flex flex-col gap-3 relative">
             <div class="flex overflow-x-auto snap-x-mandatory hide-scrollbar gap-4 w-full rounded-sm">
-                <img src="images/prod1-front.jpg" class="snap-center shrink-0 w-full md:w-[90%] aspect-square object-cover shadow-sm bg-stone-100" alt="صورة أمامية">
-                <img src="images/prod1-side.jpg" class="snap-center shrink-0 w-full md:w-[90%] aspect-square object-cover shadow-sm bg-stone-100" alt="صورة جانبية">
+                <!-- هنا السيستم يصنع الصور وحدو -->
+                <template x-for="img in images" :key="img">
+                    <img :src="img" class="snap-center shrink-0 w-full md:w-[90%] aspect-square object-cover shadow-sm bg-stone-100 mix-blend-multiply" alt="صورة الموديل">
+                </template>
             </div>
             <div class="flex justify-center items-center gap-2 mt-2 opacity-50">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
-                <p class="text-[10px] font-bold uppercase tracking-widest">اسحب لليمين واليسار للصور</p>
+                <p class="text-[10px] font-bold uppercase tracking-widest" x-text="images.length > 1 ? 'اسحب لليمين واليسار للصور' : 'صورة المنتج'"></p>
             </div>
         </section>
 
@@ -57,14 +54,15 @@
         <section class="space-y-8">
             
             <div class="border-b border-stone-200 pb-6">
-                <h1 class="text-3xl md:text-5xl font-black uppercase text-stone-900 tracking-tight">Cartier Classic</h1>
+                <!-- الاسم يتغير أوتوماتيكياً -->
+                <h1 class="text-3xl md:text-5xl font-black uppercase text-stone-900 tracking-tight" x-text="productName"></h1>
                 <div class="flex items-end gap-3 mt-3">
                     <p class="text-3xl font-black text-amber-600" x-text="formatPrice(totalPrice)"></p>
-                    <p x-show="offer === 2" class="text-lg text-stone-400 line-through mb-1" x-transition>10,900 دج</p>
+                    <p x-show="offer === 2" class="text-lg text-stone-400 line-through mb-1" x-text="formatPrice(basePrice * 2)"></p>
                 </div>
             </div>
 
-            <!-- الألوان -->
+            <!-- الألوان تتغير أوتوماتيكياً -->
             <div>
                 <label class="text-xs font-bold uppercase tracking-widest text-stone-500 mb-3 block">اللون (Couleur):</label>
                 <div class="flex flex-wrap gap-3">
@@ -77,7 +75,7 @@
                 </div>
             </div>
 
-            <!-- العروض -->
+            <!-- العروض الذكية -->
             <div class="space-y-3">
                 <label class="text-xs font-bold uppercase tracking-widest text-stone-500 mb-1 block">العروض الحصرية:</label>
                 
@@ -102,7 +100,6 @@
                             <span class="text-[11px] font-bold text-stone-600 block mt-1">توصيل مجاني + <span class="text-green-600">علبة مجانية</span></span>
                         </div>
                         <div class="text-left">
-                            <span class="text-xs text-stone-400 line-through block" x-show="offer === 2">10,600 دج</span>
                             <span class="font-black text-lg text-red-600" x-text="formatPrice(offer2Price)"></span>
                         </div>
                     </div>
@@ -133,13 +130,10 @@
                 
                 <div class="grid grid-cols-2 gap-4">
                     <input type="tel" x-model="formData.phone" placeholder="رقم الهاتف (مثال: 0791059501)" class="lux-input" required dir="ltr" style="text-align: right;">
-                    
                     <div class="relative">
                         <select x-model="formData.wilaya" class="lux-input appearance-none bg-white cursor-pointer" required>
                             <option value="">اختر الولاية...</option>
-                            <template x-for="w in wilayas" :key="w">
-                                <option :value="w" x-text="w"></option>
-                            </template>
+                            <template x-for="w in wilayas" :key="w"><option :value="w" x-text="w"></option></template>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-stone-500">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -153,9 +147,7 @@
                     <input type="checkbox" required class="mt-1 w-5 h-5 accent-amber-600">
                     <div>
                         <p class="text-xs font-black text-stone-900 mb-1">أقسم بالله العلي العظيم أنني جاد في طلبي وسأستلم السلعة.</p>
-                        <p class="text-[10px] text-stone-500 leading-relaxed font-bold">
-                            ۞ إِنَّ اللَّهَ يَأْمُرُكُمْ أَن تُؤَدُّوا الْأَمَانَاتِ إِلَىٰ أَهْلِهَا ۞
-                        </p>
+                        <p class="text-[10px] text-stone-500 leading-relaxed font-bold">۞ إِنَّ اللَّهَ يَأْمُرُكُمْ أَن تُؤَدُّوا الْأَمَانَاتِ إِلَىٰ أَهْلِهَا ۞</p>
                     </div>
                 </label>
 
@@ -169,92 +161,95 @@
 
     <script>
         document.addEventListener('alpine:init', () => {
-            Alpine.data('shopLogic', () => ({
-                offer: 1,
-                box: false,
-                basePrice: 4500,
-                offer2Price: 7500,
-                boxPrice: 800,
+            Alpine.data('shopLogic', () => {
+                // هنا نجيبو واش كليكا الزبون من صفحة الكتالوج
+                const storedProduct = JSON.parse(localStorage.getItem('selectedProduct') || '{}');
                 
-                colors: ['أسود ملكي', 'بني كلاسيك', 'ذهبي مصقول'],
-                selectedColor: 'أسود ملكي',
+                const pName = storedProduct.name || 'ANIS LUXURY';
+                const pPrice = parseInt(storedProduct.price) || 4500;
                 
-                formData: { name: '', phone: '', wilaya: '', commune: '' },
-                isSubmitting: false,
-                
-                wilayas: [
-                    "01 - أدرار", "02 - الشلف", "03 - الأغواط", "04 - أم البواقي", "05 - باتنة", "06 - بجاية", "07 - بسكرة", "08 - بشار", "09 - البليدة", "10 - البويرة",
-                    "11 - تمنراست", "12 - تبسة", "13 - تلمسان", "14 - تيارت", "15 - تيزي وزو", "16 - الجزائر", "17 - الجلفة", "18 - جيجل", "19 - سطيف", "20 - سعيدة",
-                    "21 - سكيكدة", "22 - سيدي بلعباس", "23 - عنابة", "24 - قالمة", "25 - قسنطينة", "26 - المدية", "27 - مستغانم", "28 - المسيلة", "29 - معسكر", "30 - ورقلة",
-                    "31 - وهران", "32 - البيض", "33 - إليزي", "34 - برج بوعريريج", "35 - بومرداس", "36 - الطارف", "37 - تندوف", "38 - تسمسيلت", "39 - الوادي", "40 - خنشلة",
-                    "41 - سوق أهراس", "42 - تيبازة", "43 - ميلة", "44 - عين الدفلى", "45 - النعامة", "46 - عين تموشنت", "47 - غرداية", "48 - غليزان", "49 - تيميمون", "50 - برج باجي مختار",
-                    "51 - أولاد جلال", "52 - بني عباس", "53 - إن صالح", "54 - إن قزام", "55 - تقرت", "56 - جانت", "57 - المغير", "58 - المنيعة"
-                ],
+                // جلب كل الصور والألوان أوتوماتيكياً
+                const pColors = (storedProduct.colors && storedProduct.colors.length > 0) ? storedProduct.colors.map(c => c.name) : ['لون موحد'];
+                const pImages = (storedProduct.images && storedProduct.images.length > 0) ? storedProduct.images : ['https://via.placeholder.com/400'];
 
-                get totalPrice() {
-                    let price = 0;
-                    if (this.offer === 1) {
-                        price = this.basePrice + (this.box ? this.boxPrice : 0);
-                    } else if (this.offer === 2) {
-                        price = this.offer2Price;
-                    }
-                    return price;
-                },
-                
-                setOffer(selectedOffer) {
-                    this.offer = selectedOffer;
-                    if (selectedOffer === 2) {
-                        this.box = true;
-                    } else {
-                        this.box = false;
-                    }
-                },
-                
-                formatPrice(num) { 
-                    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' دج'; 
-                },
-                
-                async submitOrder() {
-                    if (this.isSubmitting) return;
-                    this.isSubmitting = true;
+                return {
+                    productName: pName,
+                    images: pImages,
+                    colors: pColors,
+                    selectedColor: pColors[0],
                     
-                    const submitBtn = document.querySelector('button[type="submit"] span');
-                    const originalText = submitBtn.innerText;
-                    submitBtn.innerText = "جاري تأكيد الطلب... ⏳";
-
-                    const finalData = {
-                        name: this.formData.name,
-                        phone: this.formData.phone,
-                        wilaya: this.formData.wilaya,
-                        commune: this.formData.commune,
-                        model: 'Cartier Classic',
-                        color: this.selectedColor,
-                        offerSelected: this.offer === 1 ? '1x' : '2x',
-                        boxIncluded: this.box ? 'Oui' : 'Non',
-                        totalPaid: this.totalPrice
-                    };
+                    basePrice: pPrice,
+                    offer2Price: (pPrice * 2) - 1500, // تخفيض 1500 دج لمن يشتري حبتين أوتوماتيكيا
+                    boxPrice: 800,
                     
-                    try {
-                        // تنبيه: هذا هو الرابط تاعك، إذا تغير بعد الديبلويمون، بدلو هنا!
-                        const API_URL = "https://script.google.com/macros/s/AKfycbwv6ohDtq3W8JLc4lK6vTY4UlEBWzZ2l8p_2XvGVM87y3GE7Kl7kGrm50rZZ4VdcxYb/exec";
-                        
-                        await fetch(API_URL, {
-                            method: "POST",
-                            mode: "no-cors",
-                            headers: { "Content-Type": "text/plain;charset=utf-8" },
-                            body: JSON.stringify(finalData)
-                        });
+                    offer: 1,
+                    box: false,
+                    formData: { name: '', phone: '', wilaya: '', commune: '' },
+                    isSubmitting: false,
+                    
+                    wilayas: [
+                        "01 - أدرار", "02 - الشلف", "03 - الأغواط", "04 - أم البواقي", "05 - باتنة", "06 - بجاية", "07 - بسكرة", "08 - بشار", "09 - البليدة", "10 - البويرة",
+                        "11 - تمنراست", "12 - تبسة", "13 - تلمسان", "14 - تيارت", "15 - تيزي وزو", "16 - الجزائر", "17 - الجلفة", "18 - جيجل", "19 - سطيف", "20 - سعيدة",
+                        "21 - سكيكدة", "22 - سيدي بلعباس", "23 - عنابة", "24 - قالمة", "25 - قسنطينة", "26 - المدية", "27 - مستغانم", "28 - المسيلة", "29 - معسكر", "30 - ورقلة",
+                        "31 - وهران", "32 - البيض", "33 - إليزي", "34 - برج بوعريريج", "35 - بومرداس", "36 - الطارف", "37 - تندوف", "38 - تسمسيلت", "39 - الوادي", "40 - خنشلة",
+                        "41 - سوق أهراس", "42 - تيبازة", "43 - ميلة", "44 - عين الدفلى", "45 - النعامة", "46 - عين تموشنت", "47 - غرداية", "48 - غليزان", "49 - تيميمون", "50 - برج باجي مختار",
+                        "51 - أولاد جلال", "52 - بني عباس", "53 - إن صالح", "54 - إن قزام", "55 - تقرت", "56 - جانت", "57 - المغير", "58 - المنيعة"
+                    ],
 
-                        localStorage.setItem('currentOrder', JSON.stringify(finalData));
-                        window.location.href = 'thank-you.html';
+                    get totalPrice() {
+                        if (this.offer === 1) return this.basePrice + (this.box ? this.boxPrice : 0);
+                        return this.offer2Price;
+                    },
+                    
+                    setOffer(selectedOffer) {
+                        this.offer = selectedOffer;
+                        this.box = (selectedOffer === 2);
+                    },
+                    
+                    formatPrice(num) { 
+                        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' دج'; 
+                    },
+                    
+                    async submitOrder() {
+                        if (this.isSubmitting) return;
+                        this.isSubmitting = true;
                         
-                    } catch (error) {
-                        alert("حدث خطأ في الاتصال بالشبكة، يرجى المحاولة مرة أخرى.");
-                        this.isSubmitting = false;
-                        submitBtn.innerText = originalText;
+                        const submitBtn = document.querySelector('button[type="submit"] span');
+                        const originalText = submitBtn.innerText;
+                        submitBtn.innerText = "جاري تأكيد الطلب... ⏳";
+
+                        const finalData = {
+                            name: this.formData.name,
+                            phone: this.formData.phone,
+                            wilaya: this.formData.wilaya,
+                            commune: this.formData.commune,
+                            model: this.productName, // <-- هنا الاسم يروح صحيح للجدول
+                            color: this.selectedColor,
+                            offerSelected: this.offer === 1 ? '1x' : '2x',
+                            boxIncluded: this.box ? 'Oui' : 'Non',
+                            totalPaid: this.totalPrice
+                        };
+                        
+                        try {
+                            const API_URL = "https://script.google.com/macros/s/AKfycbwv6ohDtq3W8JLc4lK6vTY4UlEBWzZ2l8p_2XvGVM87y3GE7Kl7kGrm50rZZ4VdcxYb/exec";
+                            
+                            await fetch(API_URL, {
+                                method: "POST",
+                                mode: "no-cors",
+                                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                                body: JSON.stringify(finalData)
+                            });
+
+                            localStorage.setItem('currentOrder', JSON.stringify(finalData));
+                            window.location.href = 'thank-you.html';
+                        } catch (error) {
+                            alert("حدث خطأ في الاتصال بالشبكة، يرجى المحاولة مرة أخرى.");
+                            this.isSubmitting = false;
+                            submitBtn.innerText = originalText;
+                        }
                     }
                 }
-            }))
+            })
         })
     </script>
 </body>
