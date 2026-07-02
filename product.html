@@ -239,6 +239,102 @@
                 }
             }))
         })
+    </script><script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('shopLogic', () => ({
+                offer: 1,
+                box: false,
+                basePrice: 4500,
+                offer2Price: 7500,
+                boxPrice: 800,
+                
+                colors: ['أسود ملكي', 'بني كلاسيك', 'ذهبي مصقول'],
+                selectedColor: 'أسود ملكي',
+                
+                formData: { name: '', phone: '', wilaya: '', commune: '' },
+                isSubmitting: false, // متغير لمنع الضغط المزدوج
+                
+                wilayas: [
+                    "01 - أدرار", "02 - الشلف", "03 - الأغواط", "04 - أم البواقي", "05 - باتنة", "06 - بجاية", "07 - بسكرة", "08 - بشار", "09 - البليدة", "10 - البويرة",
+                    "11 - تمنراست", "12 - تبسة", "13 - تلمسان", "14 - تيارت", "15 - تيزي وزو", "16 - الجزائر", "17 - الجلفة", "18 - جيجل", "19 - سطيف", "20 - سعيدة",
+                    "21 - سكيكدة", "22 - سيدي بلعباس", "23 - عنابة", "24 - قالمة", "25 - قسنطينة", "26 - المدية", "27 - مستغانم", "28 - المسيلة", "29 - معسكر", "30 - ورقلة",
+                    "31 - وهران", "32 - البيض", "33 - إليزي", "34 - برج بوعريريج", "35 - بومرداس", "36 - الطارف", "37 - تندوف", "38 - تسمسيلت", "39 - الوادي", "40 - خنشلة",
+                    "41 - سوق أهراس", "42 - تيبازة", "43 - ميلة", "44 - عين الدفلى", "45 - النعامة", "46 - عين تموشنت", "47 - غرداية", "48 - غليزان", "49 - تيميمون", "50 - برج باجي مختار",
+                    "51 - أولاد جلال", "52 - بني عباس", "53 - إن صالح", "54 - إن قزام", "55 - تقرت", "56 - جانت", "57 - المغير", "58 - المنيعة"
+                ],
+
+                get totalPrice() {
+                    let price = 0;
+                    if (this.offer === 1) {
+                        price = this.basePrice + (this.box ? this.boxPrice : 0);
+                    } else if (this.offer === 2) {
+                        price = this.offer2Price;
+                    }
+                    return price;
+                },
+                
+                setOffer(selectedOffer) {
+                    this.offer = selectedOffer;
+                    if (selectedOffer === 2) {
+                        this.box = true;
+                    } else {
+                        this.box = false;
+                    }
+                },
+                
+                formatPrice(num) { 
+                    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' دج'; 
+                },
+                
+                // الدالة الخارقة لإرسال الطلبية لجوجل شيت
+                async submitOrder() {
+                    if (this.isSubmitting) return; // إذا راه يبعث ما يخليهش يعاود يكليكي
+                    this.isSubmitting = true;
+                    
+                    // تغيير نص الزر بصرياً للزبون
+                    const submitBtn = document.querySelector('button[type="submit"] span');
+                    const originalText = submitBtn.innerText;
+                    submitBtn.innerText = "جاري تأكيد الطلب... ⏳";
+
+                    const finalData = {
+                        name: this.formData.name,
+                        phone: this.formData.phone,
+                        wilaya: this.formData.wilaya,
+                        commune: this.formData.commune,
+                        model: 'Cartier Classic', // سنقوم بجعلها تتغير أوتوماتيكياً لاحقاً
+                        color: this.selectedColor,
+                        offerSelected: this.offer === 1 ? '1x' : '2x',
+                        boxIncluded: this.box ? 'Oui' : 'Non',
+                        totalPaid: this.totalPrice
+                    };
+                    
+                    try {
+                        // إرسال البيانات للـ API تاعك
+                        const API_URL = "https://script.google.com/macros/s/AKfycbwv6ohDtq3W8JLc4lK6vTY4UlEBWzZ2l8p_2XvGVM87y3GE7Kl7kGrm50rZZ4VdcxYb/exec";
+                        
+                        await fetch(API_URL, {
+                            method: "POST",
+                            mode: "no-cors", // هذه الخاصية تمنع المتصفح من حظر العملية (CORS Bypass)
+                            headers: {
+                                "Content-Type": "text/plain;charset=utf-8"
+                            },
+                            body: JSON.stringify(finalData)
+                        });
+
+                        // حفظ الطلب للانتقال لصفحة الشكر ورسالة الواتساب
+                        localStorage.setItem('currentOrder', JSON.stringify(finalData));
+                        
+                        // بوم! توجيه لصفحة الشكر
+                        window.location.href = 'thank-you.html';
+                        
+                    } catch (error) {
+                        alert("حدث خطأ في الاتصال بالشبكة، يرجى المحاولة مرة أخرى.");
+                        this.isSubmitting = false;
+                        submitBtn.innerText = originalText;
+                    }
+                }
+            }))
+        })
     </script>
 </body>
 </html>
