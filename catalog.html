@@ -7,77 +7,49 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <style>
-        [x-cloak] { display: none !important; }
-        body { font-family: 'Cairo', sans-serif; background-color: #F9FAFB; }
-        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); }
-        .card-hover:hover { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
-        .skeleton { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
-    </style>
-</head>
-<body class="antialiased text-stone-900">
+    
+    <!-- 1. META PIXEL (حط الـ ID تاعك هنا) -->
+    <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', 'YOUR_META_PIXEL_ID'); // بدلها بالـ ID تاعك
+        fbq('track', 'PageView');
+    </script>
 
-    <!-- النيفيغايشن -->
-    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-stone-100">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="font-black text-2xl tracking-tighter uppercase">ANIS <span class="text-amber-600">LUXURY</span></h1>
-            <div class="flex gap-6 text-xs font-bold uppercase tracking-widest text-stone-500">
-                <a href="#" class="hover:text-black transition">الرجال</a>
-                <a href="#" class="hover:text-black transition">النساء</a>
+    <!-- 2. TIKTOK PIXEL (حط الـ ID تاعك هنا) -->
+    <script>
+        !function (w, d, t) {
+          w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=i+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+          ttq.load('YOUR_TIKTOK_PIXEL_ID'); // بدلها بالـ ID تاعك
+          ttq.page();
+        }(window, document, 'ttq');
+    </script>
+</head>
+<body class="bg-stone-50 font-['Cairo']">
+
+    <div x-data="catalogueApp()" x-init="fetchProducts()" class="max-w-7xl mx-auto px-4 py-8">
+        
+        <!-- Header & Filters -->
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-black uppercase tracking-widest mb-6">ANIS LUXURY</h1>
+            <div class="flex justify-center gap-4">
+                <button @click="filter = 'all'" :class="filter === 'all' ? 'bg-black text-white' : 'bg-white'" class="px-6 py-2 text-sm font-bold border border-stone-200 transition">الكل</button>
+                <button @click="filter = 'homme'" :class="filter === 'homme' ? 'bg-black text-white' : 'bg-white'" class="px-6 py-2 text-sm font-bold border border-stone-200 transition">رجال</button>
+                <button @click="filter = 'femme'" :class="filter === 'femme' ? 'bg-black text-white' : 'bg-white'" class="px-6 py-2 text-sm font-bold border border-stone-200 transition">نساء</button>
             </div>
         </div>
-    </nav>
 
-    <div x-data="catalogueApp()" x-init="fetchProducts()" class="max-w-7xl mx-auto px-6 py-12">
-        
-        <!-- عنوان القسم -->
-        <div class="mb-12">
-            <h2 class="text-4xl font-black uppercase mb-2">أحدث التشكيلات</h2>
-            <div class="w-20 h-1 bg-amber-600"></div>
-        </div>
-
-        <!-- حالة التحميل (Skeleton Loading) -->
-        <div x-show="loading" class="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <template x-for="i in 4">
-                <div class="h-96 bg-stone-200 skeleton rounded-sm"></div>
-            </template>
-        </div>
-
-        <!-- شبكة المنتجات -->
-        <div x-show="!loading" x-cloak class="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <template x-for="product in products" :key="product.id">
-                <div class="product-card group cursor-pointer" 
-                     @click="goToProduct(product)">
-                    
-                    <!-- إطار الصورة مع سلايدر -->
-                    <div class="relative aspect-[3/4] bg-stone-100 overflow-hidden mb-4"
-                         x-data="{ activeImg: 0, hover: false }"
-                         @mouseenter="hover = true; interval = setInterval(() => { activeImg = (activeImg + 1) % product.images.length }, 800)"
-                         @mouseleave="hover = false; clearInterval(interval); activeImg = 0">
-                        
-                        <template x-for="(img, idx) in product.images" :key="idx">
-                            <img :src="img" 
-                                 x-show="activeImg === idx"
-                                 class="absolute inset-0 w-full h-full object-cover transition-all duration-500"
-                                 :class="hover ? 'scale-105' : 'scale-100'">
-                        </template>
-                        
-                        <!-- بادج السعر -->
-                        <div class="absolute top-4 left-4 bg-white px-3 py-1 font-black text-sm card-shadow">
-                            <span x-text="product.price + ' دج'"></span>
-                        </div>
+        <!-- Product Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <template x-for="product in filteredProducts" :key="product.id">
+                <div class="bg-white p-2 border border-stone-100 shadow-sm hover:shadow-xl transition-all cursor-pointer group" @click="goToProduct(product)">
+                    <div class="relative aspect-square overflow-hidden bg-stone-100">
+                        <img :src="product.images[0]" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
-
-                    <!-- تفاصيل المنتج -->
-                    <div class="space-y-1">
-                        <p class="text-[10px] font-bold text-stone-400 uppercase tracking-widest" x-text="product.brand"></p>
-                        <h3 class="font-bold text-stone-900 uppercase" x-text="product.name"></h3>
-                        <div class="flex gap-2 pt-2">
-                            <template x-for="color in product.colors">
-                                <div class="w-3 h-3 rounded-full border border-stone-200" :style="`background-color: ${color.hex}`"></div>
-                            </template>
-                        </div>
+                    <div class="p-4">
+                        <h3 class="text-sm font-black uppercase text-stone-800" x-text="product.name"></h3>
+                        <p class="text-amber-600 font-black mt-2" x-text="product.price + ' دج'"></p>
                     </div>
                 </div>
             </template>
@@ -87,19 +59,27 @@
     <script>
         function catalogueApp() {
             return {
-                loading: true,
                 products: [],
+                filter: 'all',
+                get filteredProducts() {
+                    if (this.filter === 'all') return this.products;
+                    return this.products.filter(p => p.gender === this.filter);
+                },
                 async fetchProducts() {
+                    const cached = localStorage.getItem('prod_cache');
+                    if (cached) this.products = JSON.parse(cached);
+
                     try {
-                        const response = await fetch("https://script.google.com/macros/s/AKfycbwv6ohDtq3W8JLc4lK6vTY4UlEBWzZ2l8p_2XvGVM87y3GE7Kl7kGrm50rZZ4VdcxYb/exec");
-                        this.products = await response.json();
-                    } catch (e) {
-                        console.error("Error loading products");
-                    } finally {
-                        this.loading = false;
-                    }
+                        const res = await fetch("https://script.google.com/macros/s/AKfycbwv6ohDtq3W8JLc4lK6vTY4UlEBWzZ2l8p_2XvGVM87y3GE7Kl7kGrm50rZZ4VdcxYb/exec");
+                        const data = await res.json();
+                        this.products = data;
+                        localStorage.setItem('prod_cache', JSON.stringify(data));
+                    } catch(e) { console.error(e); }
                 },
                 goToProduct(product) {
+                    // Meta Pixel tracking event
+                    if(typeof fbq !== 'undefined') fbq('track', 'ViewContent', { content_name: product.name });
+                    
                     localStorage.setItem('selectedProduct', JSON.stringify(product));
                     window.location.href = 'product.html';
                 }
