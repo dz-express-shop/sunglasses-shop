@@ -2,140 +2,68 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANIS LUXURY | الكتالوج</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; background-color: #FAFAFA; }
-        .product-card { transition: all 0.3s ease; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .product-card { transition: all 0.4s ease; }
+        .img-transition { transition: opacity 0.5s ease-in-out; }
     </style>
 </head>
 <body class="antialiased pb-10">
 
-    <!-- نافيغايشن علوي -->
-    <nav class="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-6xl mx-auto p-5 flex justify-between items-center">
-            <a href="index.html" class="font-bold text-xs text-stone-500 hover:text-black uppercase tracking-widest">← الرئيسية</a>
-            <h1 class="font-black tracking-[0.3em] text-lg uppercase">ANIS LUXURY</h1>
-            <div class="w-16"></div>
-        </div>
-    </nav>
-
-    <!-- عنوان الكتالوج الديناميكي -->
-    <header class="bg-stone-900 text-white py-12 text-center">
-        <span id="collection-subtitle" class="text-[10px] tracking-[0.3em] text-amber-500 font-bold uppercase block mb-2"></span>
-        <h2 id="collection-title" class="text-3xl md:text-5xl font-black uppercase tracking-tight">جاري التحميل...</h2>
-    </header>
-
     <main class="max-w-6xl mx-auto p-4 md:p-8 mt-6">
-        <!-- هنا يظهر الكتالوج أو دائرة التحميل -->
-        <div id="loading-spinner" class="flex flex-col items-center justify-center py-20">
-            <div class="w-12 h-12 border-4 border-stone-200 border-t-amber-500 rounded-full animate-spin"></div>
-            <p class="mt-4 text-xs font-bold text-stone-500 tracking-widest uppercase">جاري جلب أحدث الموديلات...</p>
-        </div>
-
-        <!-- شبكة المنتجات -->
-        <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 hidden">
-            <!-- سيتم حقن المنتجات هنا بالـ Javascript -->
+        <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- المنتجات تظهر هنا -->
         </div>
     </main>
 
     <script>
-        // رابط الـ API تاعك اللي يقرا من Google Sheet
         const API_URL = "https://script.google.com/macros/s/AKfycbwv6ohDtq3W8JLc4lK6vTY4UlEBWzZ2l8p_2XvGVM87y3GE7Kl7kGrm50rZZ4VdcxYb/exec";
 
-        // معرفة نوع الزبون من الرابط (homme أو femme)
-        const urlParams = new URLSearchParams(window.location.search);
-        const side = urlParams.get('side') || 'homme';
-
-        // تعديل العناوين حسب القسم
-        if(side === 'homme') {
-            document.getElementById('collection-subtitle').innerText = 'GENTLEMEN EDITION';
-            document.getElementById('collection-title').innerText = 'النخبة الرجالية';
-        } else {
-            document.getElementById('collection-subtitle').innerText = 'LADIES EXCLUSIVE';
-            document.getElementById('collection-title').innerText = 'الأناقة النسائية';
-        }
-
-        // دالة جلب المنتجات من Google Sheets
         async function fetchProducts() {
-            try {
-                const response = await fetch(API_URL);
-                const allProducts = await response.json();
-                
-                // فلترة السلعة: نجيبو غير تاع الرجال إذا دخل للرجال، والعكس
-                const filteredProducts = allProducts.filter(p => p.gender === side);
-                
-                renderProducts(filteredProducts);
-            } catch (error) {
-                document.getElementById('loading-spinner').innerHTML = '<p class="text-red-500 font-bold">حدث خطأ في تحميل الكتالوج. يرجى تحديث الصفحة.</p>';
-            }
-        }
-
-        // دالة رسم المنتجات في الصفحة
-        function renderProducts(products) {
+            const response = await fetch(API_URL);
+            const products = await response.json();
             const grid = document.getElementById('product-grid');
-            const spinner = document.getElementById('loading-spinner');
             
-            spinner.classList.add('hidden'); // إخفاء التحميل
-            grid.classList.remove('hidden'); // إظهار الشبكة
-            
-            grid.innerHTML = ''; // تفريغ الشبكة القديمة
+            grid.innerHTML = products.map(product => `
+                <div x-data="{ 
+                    images: ${JSON.stringify(product.images || ['https://via.placeholder.com/400'])}, 
+                    currentIdx: 0,
+                    interval: null 
+                }" 
+                class="product-card bg-white border border-stone-100 rounded-sm overflow-hidden flex flex-col h-full"
+                @mouseenter="interval = setInterval(() => { currentIdx = (currentIdx + 1) % images.length }, 1000)"
+                @mouseleave="clearInterval(interval); currentIdx = 0"
+                onclick="goToProduct('${encodeURIComponent(JSON.stringify(product))}')">
+                    
+                    <!-- السلايدر تاع الصور -->
+                    <div class="relative aspect-square bg-stone-50 overflow-hidden">
+                        <template x-for="(img, index) in images" :key="index">
+                            <img :src="img" 
+                                 x-show="currentIdx === index"
+                                 class="absolute inset-0 w-full h-full object-cover mix-blend-multiply img-transition">
+                        </template>
+                    </div>
 
-            if(products.length === 0) {
-                grid.innerHTML = '<p class="col-span-full text-center text-stone-500 py-10 font-bold">لا توجد موديلات متاحة في هذا القسم حالياً.</p>';
-                return;
-            }
-
-            products.forEach(product => {
-                // رسم دوائر الألوان
-                let colorsHTML = '';
-                product.colors.forEach(color => {
-                    colorsHTML += `<div class="w-4 h-4 rounded-full border border-stone-200 shadow-sm" style="background-color: ${color.hex}" title="${color.name}"></div>`;
-                });
-
-                // صورة المنتج الأولى (إذا مكانش، نديرو صورة افتراضية)
-                let firstImage = (product.colors && product.colors[0] && product.colors[0].img) ? product.colors[0].img : 'https://via.placeholder.com/400';
-
-                // رسم بطاقة المنتج
-                const card = `
-                    <div class="product-card bg-white border border-stone-100 rounded-sm overflow-hidden cursor-pointer flex flex-col h-full" onclick="goToProduct('${encodeURIComponent(JSON.stringify(product))}')">
-                        <div class="relative aspect-square bg-stone-50 p-4 flex items-center justify-center overflow-hidden">
-                            <img src="${firstImage}" alt="${product.name}" class="w-full h-full object-contain mix-blend-multiply hover:scale-105 transition-transform duration-500">
-                        </div>
-                        <div class="p-4 flex flex-col flex-1 justify-between">
-                            <div>
-                                <h3 class="font-black text-stone-800 text-sm md:text-base uppercase tracking-tight">${product.name}</h3>
-                                <p class="text-[10px] text-stone-400 font-bold tracking-widest uppercase mt-1">${product.brand}</p>
-                            </div>
-                            <div class="mt-4 flex justify-between items-end">
-                                <div class="flex gap-1">
-                                    ${colorsHTML}
-                                </div>
-                                <span class="font-black text-amber-600 text-sm md:text-base">${formatPrice(product.price)}</span>
-                            </div>
+                    <div class="p-4 flex-1">
+                        <h3 class="font-black text-stone-800 text-sm uppercase">${product.name}</h3>
+                        <div class="mt-2 flex justify-between items-center">
+                            <span class="font-black text-amber-600">${product.price} دج</span>
                         </div>
                     </div>
-                `;
-                grid.innerHTML += card;
-            });
+                </div>
+            `).join('');
         }
 
-        // تنسيق السعر
-        function formatPrice(num) { 
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' دج'; 
-        }
-
-        // نقل الزبون لصفحة الدفع مع بيانات النظارة المحددة
         function goToProduct(productDataStr) {
-            // نخبيو تفاصيل النظارة في المتصفح باش تقراها صفحة product.html
             localStorage.setItem('selectedProduct', decodeURIComponent(productDataStr));
             window.location.href = 'product.html';
         }
 
-        // تشغيل الجلب بمجرد فتح الصفحة
         fetchProducts();
     </script>
 </body>
