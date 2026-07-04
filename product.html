@@ -8,7 +8,6 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     
-    <!-- 1. META PIXEL -->
     <script>
         !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
         if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
@@ -16,7 +15,6 @@
         fbq('init', 'YOUR_META_PIXEL_ID'); fbq('track', 'PageView');
     </script>
 
-    <!-- 2. TIKTOK PIXEL -->
     <script>
         !function (w, d, t) {
           w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=i+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
@@ -26,40 +24,29 @@
 
     <style>
         body { background-color: #050505; color: #e7e5e4; font-family: 'Cairo', sans-serif; overflow-x: hidden; }
-        
-        /* Inputs Luxury Design */
         .lux-input { background: #121212; border: 1px solid #262626; padding: 18px 16px; width: 100%; color: white; transition: 0.3s; font-weight: 600; border-radius: 14px; }
         .lux-input:focus { border-color: #f59e0b; outline: none; background: #171717; box-shadow: 0 0 20px rgba(245, 158, 11, 0.15); }
         .lux-input::placeholder { color: #525252; font-size: 14px; font-weight: 600; }
         
-        /* 🔥 Mega Upsell Animation */
         @keyframes ultra-glow {
             0% { box-shadow: 0 0 10px rgba(245,158,11,0.2), inset 0 0 10px rgba(245,158,11,0.1); border-color: #b45309; }
             50% { box-shadow: 0 0 35px rgba(245,158,11,0.6), inset 0 0 20px rgba(245,158,11,0.2); border-color: #f59e0b; }
             100% { box-shadow: 0 0 10px rgba(245,158,11,0.2), inset 0 0 10px rgba(245,158,11,0.1); border-color: #b45309; }
         }
         .offer-mega { animation: ultra-glow 2s infinite; position: relative; overflow: hidden; }
-        
-        /* Shimmer effect for button and offer */
         @keyframes shimmer-fast { 100% { transform: translateX(-200%); } }
         .shimmer-bg { position: absolute; top: 0; left: 0; width: 200%; height: 100%; background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%); animation: shimmer-fast 2.5s infinite linear; pointer-events: none; }
-
-        /* Trust Badge Grid */
         .trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; border-top: 1px solid #262626; padding-top: 20px; }
-        
-        /* WhatsApp */
         .pulse-whatsapp { animation: pulse-green 2s infinite; }
         @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
     </style>
 </head>
 <body x-data="productApp()" class="antialiased pb-28">
 
-    <!-- WhatsApp Sticky -->
     <a href="https://wa.me/213791059501?text=مرحبا،%20أريد%20الاستفسار%20عن%20المنتج" class="fixed bottom-6 right-6 z-[99] bg-[#25d366] p-4 rounded-full shadow-2xl pulse-whatsapp hover:scale-110 transition-transform">
         <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.003 3.238l-.58 2.16 2.255-.594c.969.533 2.064.814 3.19.814h.001c3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.586-5.766-5.766-5.766zM12.031 21.054c-1.127 0-2.221-.295-3.18-.853l-2.29.601.59-2.203c-1.146-1.527-1.146-3.855 0-5.382 1.547-2.062 4.14-3.237 6.88-3.237 3.99 0 7.234 3.243 7.234 7.234 0 3.99-3.244 7.234-7.234 7.234z"/></svg>
     </a>
 
-    <!-- Nav -->
     <nav class="fixed top-0 w-full z-50 bg-[#050505]/90 backdrop-blur-md border-b border-white/5 py-4 px-6">
         <div class="max-w-3xl mx-auto flex justify-between items-center">
             <a href="javascript:history.back()" class="text-stone-400 hover:text-white transition font-bold text-sm tracking-widest uppercase">← رجوع للكتالوج</a>
@@ -69,7 +56,6 @@
 
     <main class="max-w-3xl mx-auto pt-16">
         
-        <!-- 🌟 1. Image Gallery (Swipe + Auto) -->
         <div class="relative w-full aspect-[4/5] bg-[#0a0a0a] overflow-hidden rounded-b-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
              @touchstart="handleTouchStart" 
              @touchend="handleTouchEnd"
@@ -82,21 +68,17 @@
                 </template>
             </div>
 
-            <!-- Gradient for UI clarity -->
             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/10 pointer-events-none"></div>
 
-            <!-- Floating Badges -->
             <div class="absolute top-4 right-4 bg-amber-500 text-black px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider shadow-lg">
                 كمية محدودة 🔥
             </div>
 
-            <!-- Swipe Indicator (Icon) -->
             <div class="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2 pointer-events-none opacity-40">
                 <svg class="w-8 h-8 text-white animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                 <svg class="w-8 h-8 text-white animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </div>
 
-            <!-- Dots -->
             <div class="absolute bottom-8 w-full flex justify-center gap-2" dir="ltr">
                 <template x-for="(img, idx) in images" :key="idx">
                     <button @click="goToImg(idx)" class="h-1.5 rounded-full transition-all duration-300" :class="activeImg === idx ? 'w-8 bg-amber-500' : 'w-2 bg-white/30'"></button>
@@ -104,7 +86,6 @@
             </div>
         </div>
 
-        <!-- 🌟 2. Product Info & Trust -->
         <div class="p-6 md:p-8 text-center bg-gradient-to-b from-[#0a0a0a] to-[#050505]">
             <p class="text-amber-500 font-bold tracking-[0.3em] uppercase text-xs mb-2" x-text="productBrand"></p>
             <h1 class="text-3xl md:text-5xl font-black uppercase tracking-tight text-white leading-tight" x-text="productName"></h1>
@@ -113,7 +94,6 @@
                 <span x-show="offer === 2" class="text-xl text-stone-600 line-through" x-text="formatPrice(basePrice * 2)"></span>
             </p>
 
-            <!-- Trust Badges -->
             <div class="trust-grid">
                 <div class="flex flex-col items-center gap-2">
                     <div class="bg-[#121212] p-3 rounded-full text-amber-500"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg></div>
@@ -132,7 +112,6 @@
 
         <hr class="border-[#1a1a1a] mx-6 my-4">
 
-        <!-- 🌟 3. Step 1: Color Selection -->
         <div class="px-6 mb-10">
             <div class="flex items-center gap-3 mb-4">
                 <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center font-black">1</div>
@@ -150,7 +129,6 @@
             </div>
         </div>
 
-        <!-- 🌟 4. Step 2: The Money Maker (Offers) -->
         <div class="px-6 mb-10">
             <div class="flex items-center gap-3 mb-4">
                 <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center font-black">2</div>
@@ -158,7 +136,6 @@
             </div>
 
             <div class="space-y-4">
-                <!-- عرض 1 -->
                 <div @click="setOffer(1)" 
                      class="p-5 border-2 rounded-2xl cursor-pointer transition-all duration-300 flex justify-between items-center"
                      :class="offer === 1 ? 'border-stone-400 bg-[#171717]' : 'border-[#262626] bg-[#0a0a0a]'">
@@ -171,7 +148,6 @@
                     <span class="text-white font-black text-xl" x-text="formatPrice(basePrice)"></span>
                 </div>
                 
-                <!-- عرض 2 (WOW UPSell) -->
                 <div @click="setOffer(2)" 
                      class="p-[3px] rounded-2xl cursor-pointer transition-all duration-300 offer-mega"
                      :class="offer === 2 ? 'scale-[1.03] shadow-2xl' : 'scale-100 opacity-90 grayscale-[30%] hover:grayscale-0'">
@@ -197,7 +173,6 @@
                     </div>
                 </div>
 
-                <!-- خيار العلبة للعرض 1 -->
                 <div x-show="offer === 1" x-collapse class="p-5 bg-[#121212] border-l-4 border-amber-500 rounded-xl flex justify-between items-center transition-all mt-4 ml-2">
                     <div>
                         <span class="font-black text-white block text-sm">إضافة العلبة الفاخرة</span>
@@ -211,7 +186,6 @@
             </div>
         </div>
 
-        <!-- 🌟 5. Step 3: Checkout Form -->
         <div class="px-6 pb-6 relative z-20">
             <div class="flex items-center gap-3 mb-6">
                 <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center font-black">3</div>
@@ -239,7 +213,6 @@
 
                 <textarea x-model="formData.notes" placeholder="ملاحظة للبائع، استفسار، أو وقت التوصيل المفضل... (اختياري)" rows="3" class="lux-input resize-none"></textarea>
 
-                <!-- 🌟 Islamic Oath (تصميم فخم لضمان الأمانة) -->
                 <label class="flex items-start gap-4 p-5 mt-8 bg-gradient-to-br from-[#1a1510] to-[#0a0a0a] border border-amber-900/50 rounded-2xl cursor-pointer transition-colors shadow-lg">
                     <input type="checkbox" required class="mt-1 w-6 h-6 accent-amber-500 shrink-0 cursor-pointer">
                     <div>
@@ -248,14 +221,12 @@
                     </div>
                 </label>
 
-                <!-- 🌟 Sticky Submit Action -->
                 <div class="fixed bottom-0 left-0 w-full p-4 md:p-6 bg-gradient-to-t from-[#050505] via-[#050505] to-transparent z-[90]">
                     <button type="submit" class="max-w-3xl mx-auto w-full relative overflow-hidden bg-amber-500 text-black py-5 rounded-2xl font-black text-xl uppercase tracking-widest transition-transform active:scale-95 shadow-[0_0_40px_rgba(245,158,11,0.3)] group flex items-center justify-center gap-3">
                         <span class="relative z-10" x-text="isSubmitting ? 'جاري التأكيد... ⏳' : 'تأكيد الطلب (' + formatPrice(totalPrice) + ')'"></span>
                         <div class="shimmer-bg opacity-50"></div>
                     </button>
                 </div>
-                <!-- Space buffer -->
                 <div class="h-24"></div>
             </form>
         </div>
@@ -264,20 +235,19 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('productApp', () => ({
-                productName: 'جاري التحميل...',
-                productBrand: 'ANIS LUXURY',
+                productName: '',
+                productBrand: '',
                 images: [],
                 activeImg: 0,
                 colors: [],
                 selectedColor: '',
                 basePrice: 0,
-                boxPrice: 800,
+                boxPrice: 800, // ثمن العلبة إذا شرا حبة وحدة
                 
                 offer: 1,
                 box: false,
                 isSubmitting: false,
                 
-                // Swipe Logic Variables
                 touchStartX: 0,
                 touchEndX: 0,
                 autoSlideInterval: null,
@@ -292,24 +262,35 @@
                     "51 - أولاد جلال", "52 - بني عباس", "53 - إن صالح", "54 - إن قزام", "55 - تقرت", "56 - جانت", "57 - المغير", "58 - المنيعة"
                 ],
 
+                // 🧠 الدالة الذكية لجلب المعلومات بالضبط كما هي في الشيت
                 init() {
-                    const saved = JSON.parse(localStorage.getItem('selectedProduct'));
-                    if(saved) {
-                        this.productName = saved.name;
+                    const savedStr = localStorage.getItem('selectedProduct');
+                    if(savedStr) {
+                        const saved = JSON.parse(savedStr);
+                        
+                        this.productName = saved.name || '';
                         this.productBrand = saved.brand || 'ANIS LUXURY';
-                        this.images = saved.images;
-                        this.colors = saved.colors;
-                        if(this.colors && this.colors.length > 0) this.selectedColor = this.colors[0].name;
-                        this.basePrice = parseInt(saved.price);
+                        this.images = saved.images || [];
+                        this.colors = saved.colors || [];
+                        
+                        if(this.colors.length > 0) {
+                            this.selectedColor = this.colors[0].name;
+                        }
+
+                        // 🔥 هنا الذكاء: نستخرج الرقم فقط حتى لو كتبت "8500 DZD" في الشيت
+                        let rawPrice = String(saved.price).replace(/\D/g, ''); 
+                        this.basePrice = parseInt(rawPrice) || 0;
+                    } else {
+                        // حماية: إذا دخل للصفحة مباشرة، يرجع للرئيسية
+                        window.location.href = 'index.html'; 
                     }
                 },
 
-                // Swipe Logic
                 handleTouchStart(e) { this.touchStartX = e.changedTouches[0].screenX; },
                 handleTouchEnd(e) {
                     this.touchEndX = e.changedTouches[0].screenX;
-                    if (this.touchStartX - this.touchEndX > 50) this.nextImage(); // Swipe left (next)
-                    if (this.touchEndX - this.touchStartX > 50) this.prevImage(); // Swipe right (prev)
+                    if (this.touchStartX - this.touchEndX > 50) this.nextImage();
+                    if (this.touchEndX - this.touchStartX > 50) this.prevImage();
                 },
                 startAutoSlide() {
                     this.autoSlideInterval = setInterval(() => this.nextImage(), 3500);
@@ -331,7 +312,11 @@
                     this.resetAutoSlide();
                 },
 
-                get offer2Price() { return (this.basePrice * 2) - 1000; },
+                // 🧠 حساب السعر ديناميكيا انطلاقا من سعر الشيت
+                get offer2Price() { 
+                    // عرض 2 حبات: سعر الشيت مضروب في 2، ودرنالو تخفيض 1000 دج للتحفيز
+                    return (this.basePrice * 2) - 1000; 
+                },
                 get totalPrice() {
                     if (this.offer === 1) return this.basePrice + (this.box ? this.boxPrice : 0);
                     return this.offer2Price;
@@ -387,3 +372,4 @@
     </script>
 </body>
 </html>
+
