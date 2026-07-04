@@ -2,13 +2,13 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANIS LUXURY | الكتالوج الرسمي</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ANIS LUXURY | التشكيلة الحصرية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
     
-    <!-- 1. META PIXEL (حط الـ ID تاعك هنا) -->
+    <!-- 1. META PIXEL -->
     <script>
         !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
         if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
@@ -17,7 +17,7 @@
         fbq('track', 'PageView');
     </script>
 
-    <!-- 2. TIKTOK PIXEL (حط الـ ID تاعك هنا) -->
+    <!-- 2. TIKTOK PIXEL -->
     <script>
         !function (w, d, t) {
           w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=i+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
@@ -25,63 +25,198 @@
           ttq.page();
         }(window, document, 'ttq');
     </script>
-</head>
-<body class="bg-stone-50 font-['Cairo']">
 
-    <div x-data="catalogueApp()" x-init="fetchProducts()" class="max-w-7xl mx-auto px-4 py-8">
+    <style>
+        [x-cloak] { display: none !important; }
+        body { background-color: #0c0a09; color: #e7e5e4; font-family: 'Cairo', sans-serif; overflow-x: hidden; }
         
-        <!-- Header & Filters -->
-        <div class="text-center mb-10">
-            <h1 class="text-3xl font-black uppercase tracking-widest mb-6">ANIS LUXURY</h1>
-            <div class="flex justify-center gap-4">
-                <button @click="filter = 'all'" :class="filter === 'all' ? 'bg-black text-white' : 'bg-white'" class="px-6 py-2 text-sm font-bold border border-stone-200 transition">الكل</button>
-                <button @click="filter = 'homme'" :class="filter === 'homme' ? 'bg-black text-white' : 'bg-white'" class="px-6 py-2 text-sm font-bold border border-stone-200 transition">رجال</button>
-                <button @click="filter = 'femme'" :class="filter === 'femme' ? 'bg-black text-white' : 'bg-white'" class="px-6 py-2 text-sm font-bold border border-stone-200 transition">نساء</button>
+        /* Glassmorphism Effect */
+        .glass-nav { background: rgba(12, 10, 9, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        
+        /* Search Bar */
+        .search-input { background: #1c1917; border: 1px solid #292524; color: white; transition: all 0.3s; }
+        .search-input:focus { border-color: #d97706; outline: none; box-shadow: 0 0 15px rgba(217, 119, 6, 0.1); }
+        
+        /* WhatsApp Pulse */
+        .pulse-whatsapp { animation: pulse-green 2s infinite; }
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6); } 70% { box-shadow: 0 0 0 15px rgba(34, 197, 94, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); } }
+        
+        /* Skeleton Animation */
+        .skeleton { animation: skeleton-loading 1.5s infinite linear alternate; }
+        @keyframes skeleton-loading { 0% { background-color: #1c1917; } 100% { background-color: #292524; } }
+    </style>
+</head>
+<body x-data="catalogueApp()" x-init="fetchProducts()">
+
+    <!-- الواتساب العائم -->
+    <a href="https://wa.me/213791059501?text=مرحبا،%20أريد%20الاستفسار%20عن%20منتج" 
+       class="fixed bottom-6 right-6 z-[99] bg-[#25d366] p-4 rounded-full shadow-2xl pulse-whatsapp hover:scale-110 transition-transform">
+        <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.003 3.238l-.58 2.16 2.255-.594c.969.533 2.064.814 3.19.814h.001c3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.586-5.766-5.766-5.766zM12.031 21.054c-1.127 0-2.221-.295-3.18-.853l-2.29.601.59-2.203c-1.146-1.527-1.146-3.855 0-5.382 1.547-2.062 4.14-3.237 6.88-3.237 3.99 0 7.234 3.243 7.234 7.234 0 3.99-3.244 7.234-7.234 7.234z"/></svg>
+    </a>
+
+    <!-- Header (Sticky & Glass) -->
+    <nav class="sticky top-0 z-50 glass-nav py-4 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <h1 class="text-2xl md:text-3xl font-black uppercase tracking-[0.2em] text-white">
+                ANIS <span class="text-amber-600">LUXURY</span>
+            </h1>
+            
+            <!-- Live Search -->
+            <div class="relative w-full md:w-1/3">
+                <input type="text" x-model="searchQuery" placeholder="ابحث عن موديل، ماركة..." 
+                       class="search-input w-full py-3 px-5 rounded-full text-sm font-bold">
+                <svg class="w-5 h-5 absolute left-4 top-3.5 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             </div>
         </div>
+    </nav>
 
-        <!-- Product Grid -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <template x-for="product in filteredProducts" :key="product.id">
-                <div class="bg-white p-2 border border-stone-100 shadow-sm hover:shadow-xl transition-all cursor-pointer group" @click="goToProduct(product)">
-                    <div class="relative aspect-square overflow-hidden bg-stone-100">
-                        <img :src="product.images[0]" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-black uppercase text-stone-800" x-text="product.name"></h3>
-                        <p class="text-amber-600 font-black mt-2" x-text="product.price + ' دج'"></p>
-                    </div>
+    <main class="max-w-7xl mx-auto px-4 py-8 md:py-12">
+        
+        <!-- Filters (Pills) -->
+        <div class="flex overflow-x-auto hide-scrollbar justify-start md:justify-center gap-3 mb-10 pb-2">
+            <button @click="filter = 'all'" :class="filter === 'all' ? 'bg-amber-600 text-white border-amber-600' : 'bg-[#1c1917] text-stone-400 border-stone-800'" class="px-6 py-2.5 rounded-full text-sm font-bold border whitespace-nowrap transition-all duration-300">عرض الكل</button>
+            <button @click="filter = 'homme'" :class="filter === 'homme' ? 'bg-white text-black border-white' : 'bg-[#1c1917] text-stone-400 border-stone-800'" class="px-6 py-2.5 rounded-full text-sm font-bold border whitespace-nowrap transition-all duration-300">الرجال</button>
+            <button @click="filter = 'femme'" :class="filter === 'femme' ? 'bg-white text-black border-white' : 'bg-[#1c1917] text-stone-400 border-stone-800'" class="px-6 py-2.5 rounded-full text-sm font-bold border whitespace-nowrap transition-all duration-300">النساء</button>
+        </div>
+
+        <!-- Skeleton Loading (يظهر قبل ما يجو المنتجات) -->
+        <div x-show="isLoading" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            <template x-for="i in 8">
+                <div class="rounded-2xl overflow-hidden bg-[#1c1917] border border-stone-800 p-2">
+                    <div class="aspect-[4/5] skeleton rounded-xl mb-4"></div>
+                    <div class="h-4 skeleton rounded w-3/4 mb-2"></div>
+                    <div class="h-4 skeleton rounded w-1/2"></div>
                 </div>
             </template>
         </div>
-    </div>
+
+        <!-- Product Grid -->
+        <div x-show="!isLoading" x-cloak class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            <template x-for="product in filteredProducts" :key="product.id">
+                
+                <!-- Product Card -->
+                <div @click="goToProduct(product)" 
+                     class="group bg-[#1c1917] rounded-2xl overflow-hidden border border-stone-800 hover:border-amber-500/50 hover:shadow-[0_0_30px_rgba(217,119,6,0.15)] transition-all duration-500 cursor-pointer flex flex-col h-full relative">
+                    
+                    <!-- Auto-Sliding Images -->
+                    <!-- يتم تغيير الصورة تلقائيا كل 3 ثواني بفضل x-init -->
+                    <div x-data="{ activeImg: 0 }"
+                         x-init="if(product.images && product.images.length > 1) setInterval(() => activeImg = (activeImg + 1) % product.images.length, 3000 + (Math.random() * 1000))"
+                         class="relative aspect-[4/5] bg-stone-900 overflow-hidden rounded-t-2xl">
+                        
+                        <template x-for="(img, idx) in product.images" :key="idx">
+                            <!-- transition.opacity باش الصورة تذوب وتدخل الصورة الجديدة بـ نعومة -->
+                            <img :src="img" 
+                                 x-show="activeImg === idx" 
+                                 x-transition.opacity.duration.700ms
+                                 loading="lazy" 
+                                 class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out">
+                        </template>
+
+                        <!-- Gradient Overlay لتحسين قراءة النقاط -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
+                        
+                        <!-- Dots (مؤشر لعدد الصور) -->
+                        <div class="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 z-10" x-show="product.images && product.images.length > 1">
+                            <template x-for="(img, idx) in product.images" :key="idx">
+                                <div class="h-1 rounded-full transition-all duration-500"
+                                     :class="activeImg === idx ? 'w-4 bg-amber-500' : 'w-1.5 bg-white/40'"></div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Product Details -->
+                    <div class="p-4 flex flex-col flex-1 justify-between bg-gradient-to-b from-[#1c1917] to-black">
+                        <div>
+                            <p class="text-[9px] md:text-[10px] text-stone-500 font-bold uppercase tracking-widest mb-1" x-text="product.brand || 'ANIS LUXURY'"></p>
+                            <h3 class="text-sm md:text-base font-black uppercase text-white truncate" x-text="product.name"></h3>
+                        </div>
+                        <div class="mt-4 flex items-center justify-between">
+                            <span class="text-base md:text-lg font-black text-amber-500" x-text="formatPrice(product.price)"></span>
+                            
+                            <!-- Colors Indicator -->
+                            <div class="flex gap-1" x-show="product.colors && product.colors.length > 0">
+                                <template x-for="color in product.colors.slice(0,3)">
+                                    <div class="w-3 h-3 rounded-full border border-stone-600 shadow-sm" :style="`background-color: ${color.hex}`"></div>
+                                </template>
+                                <span x-show="product.colors.length > 3" class="text-[10px] text-stone-500 font-bold">+</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </template>
+        </div>
+
+        <!-- رسالة عند عدم وجود نتائج في البحث -->
+        <div x-show="!isLoading && filteredProducts.length === 0" x-cloak class="text-center py-20">
+            <p class="text-stone-500 font-bold text-lg">لم يتم العثور على أي موديل بهذا الاسم.</p>
+        </div>
+
+    </main>
 
     <script>
         function catalogueApp() {
             return {
                 products: [],
                 filter: 'all',
+                searchQuery: '',
+                isLoading: true,
+                
                 get filteredProducts() {
-                    if (this.filter === 'all') return this.products;
-                    return this.products.filter(p => p.gender === this.filter);
+                    let result = this.products;
+                    
+                    // فلترة بالأقسام (رجال/نساء)
+                    if (this.filter !== 'all') {
+                        result = result.filter(p => p.gender === this.filter);
+                    }
+                    
+                    // فلترة بالبحث الذكي
+                    if (this.searchQuery.trim() !== '') {
+                        const q = this.searchQuery.toLowerCase();
+                        result = result.filter(p => 
+                            p.name.toLowerCase().includes(q) || 
+                            (p.brand && p.brand.toLowerCase().includes(q))
+                        );
+                    }
+                    
+                    return result;
                 },
+
                 async fetchProducts() {
+                    const API_URL = "https://script.google.com/macros/s/AKfycbwv6ohDtq3W8JLc4lK6vTY4UlEBWzZ2l8p_2XvGVM87y3GE7Kl7kGrm50rZZ4VdcxYb/exec";
+                    
+                    // قراءة الكاش لتسريع الفتح
                     const cached = localStorage.getItem('prod_cache');
-                    if (cached) this.products = JSON.parse(cached);
+                    if (cached) {
+                        this.products = JSON.parse(cached);
+                        this.isLoading = false; // إذا كان كاين كاش، نخفي السكيلتون ديريكت
+                    }
 
                     try {
-                        const res = await fetch("https://script.google.com/macros/s/AKfycbwv6ohDtq3W8JLc4lK6vTY4UlEBWzZ2l8p_2XvGVM87y3GE7Kl7kGrm50rZZ4VdcxYb/exec");
+                        const res = await fetch(API_URL);
                         const data = await res.json();
+                        
+                        // تنظيف الداتا وتحديث المنتجات
                         this.products = data;
                         localStorage.setItem('prod_cache', JSON.stringify(data));
-                    } catch(e) { console.error(e); }
+                    } catch(e) { 
+                        console.error("Network error"); 
+                    } finally {
+                        this.isLoading = false;
+                    }
                 },
+
                 goToProduct(product) {
-                    // Meta Pixel tracking event
-                    if(typeof fbq !== 'undefined') fbq('track', 'ViewContent', { content_name: product.name });
+                    // تفعيل البيكسل
+                    if(typeof fbq !== 'undefined') fbq('track', 'ViewContent', { content_name: product.name, value: product.price, currency: 'DZD' });
                     
                     localStorage.setItem('selectedProduct', JSON.stringify(product));
                     window.location.href = 'product.html';
+                },
+
+                formatPrice(num) { 
+                    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' دج'; 
                 }
             }
         }
