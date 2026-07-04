@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>ANIS LUXURY | لوحة التحكم</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Cairo', sans-serif; background: #0c0a09; color: #fff; }</style>
+</head>
+<body class="p-6">
+
+    <div x-data="stockManager()" class="max-w-4xl mx-auto bg-[#121212] p-8 rounded-3xl border border-stone-800">
+        <h1 class="text-3xl font-black mb-8 text-amber-500">إضافة منتج جديد للمخزون 📦</h1>
+        
+        <form @submit.prevent="submitProduct" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- التفاصيل -->
+            <div class="space-y-4">
+                <input type="text" x-model="product.name" class="w-full bg-[#1c1917] border border-stone-700 p-4 rounded-xl" placeholder="اسم الموديل" required>
+                <input type="text" x-model="product.brand" class="w-full bg-[#1c1917] border border-stone-700 p-4 rounded-xl" placeholder="الماركة" required>
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="number" x-model="product.price" class="w-full bg-[#1c1917] border border-stone-700 p-4 rounded-xl" placeholder="السعر" required>
+                    <input type="number" x-model="product.stock" class="w-full bg-[#1c1917] border border-stone-700 p-4 rounded-xl" placeholder="الكمية (Stock)" required>
+                </div>
+            </div>
+
+            <!-- رفع الصور -->
+            <div class="border-2 border-dashed border-stone-700 rounded-2xl p-6 flex flex-col items-center justify-center">
+                <input type="file" multiple accept="image/*" @change="uploadImages" class="hidden" id="imgUpload">
+                <label for="imgUpload" class="bg-amber-600 px-6 py-3 rounded-xl font-black cursor-pointer hover:bg-amber-500">اختر صور المنتج</label>
+                <div class="flex gap-2 mt-4 flex-wrap justify-center">
+                    <template x-for="img in product.images" :key="img">
+                        <img :src="img" class="w-16 h-16 object-cover rounded-lg">
+                    </template>
+                </div>
+                <div x-show="uploading" class="text-amber-500 font-bold mt-2">جاري الرفع... ⏳</div>
+            </div>
+
+            <button type="submit" class="md:col-span-2 bg-amber-600 py-5 rounded-2xl font-black text-xl hover:bg-amber-500 transition-all">
+                حفظ في قاعدة البيانات 🚀
+            </button>
+        </form>
+    </div>
+
+    <script>
+        function stockManager() {
+            return {
+                IMGBB_KEY: 'b0fa763c761b0c0f992a7924d5b7dc44',
+                product: { name: '', brand: '', price: '', stock: '', images: [], colors: [] },
+                uploading: false,
+
+                async uploadImages(e) {
+                    this.uploading = true;
+                    for(let file of e.target.files) {
+                        let formData = new FormData();
+                        formData.append('image', file);
+                        let res = await fetch(`https://api.imgbb.com/1/upload?key=${this.IMGBB_KEY}`, { method: 'POST', body: formData });
+                        let data = await res.json();
+                        this.product.images.push(data.data.url);
+                    }
+                    this.uploading = false;
+                },
+
+                async submitProduct() {
+                    const API_URL = "https://script.google.com/macros/s/AKfycbwv6ohDtq3W8JLc4lK6vTY4UlEBWzZ2l8p_2XvGVM87y3GE7Kl7kGrm50rZZ4VdcxYb/exec";
+                    const data = {
+                        action: "addProduct",
+                        ...this.product,
+                        images: this.product.images.join(',')
+                    };
+                    await fetch(API_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
+                    alert("تمت الإضافة بنجاح!");
+                }
+            }
+        }
+    </script>
+</body>
+</html>
