@@ -3,112 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ANIS LUXURY | موديل حصري</title>
+    <title>ANIS LUXURY | تفاصيل الموديل</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
     
+    <!-- 1. META PIXEL -->
+    <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', 'YOUR_META_PIXEL_ID'); // حط الـ ID تاعك
+        fbq('track', 'PageView');
+    </script>
+
+    <!-- 2. TIKTOK PIXEL -->
+    <script>
+        !function (w, d, t) {
+          w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=i+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+          ttq.load('YOUR_TIKTOK_PIXEL_ID'); // حط الـ ID تاعك
+          ttq.page();
+        }(window, document, 'ttq');
+    </script>
+
     <style>
-        body { background-color: #0c0a09; color: #e7e5e4; font-family: 'Cairo', sans-serif; }
-        .glass { background: rgba(28, 25, 23, 0.7); backdrop-filter: blur(10px); }
-        .lux-input { background: #1c1917; border: 1px solid #44403c; padding: 16px; width: 100%; color: white; transition: 0.3s; }
-        .lux-input:focus { border-color: #d97706; outline: none; background: #292524; }
+        body { background-color: #0c0a09; color: #e7e5e4; font-family: 'Cairo', sans-serif; overflow-x: hidden; }
         
-        /* تأثير النبض للواتساب */
+        /* Inputs Luxury Design */
+        .lux-input { background: #1c1917; border: 1px solid #292524; padding: 16px; width: 100%; color: white; transition: 0.3s; font-weight: 600; border-radius: 12px; }
+        .lux-input:focus { border-color: #d97706; outline: none; background: #292524; box-shadow: 0 0 15px rgba(217,119,6,0.1); }
+        .lux-input::placeholder { color: #78716c; font-size: 13px; font-weight: 400; }
+        
+        /* Hide scrollbar for slider */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Shimmer & Glow */
+        @keyframes shimmer { 100% { transform: translateX(-100%); } }
+        .glow-effect { box-shadow: 0 0 25px rgba(217, 119, 6, 0.2); }
         .pulse-whatsapp { animation: pulse-green 2s infinite; }
-        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(34, 197, 94, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); } }
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
     </style>
 </head>
-<body x-data="shopLogic()">
+<body x-data="productApp()" class="antialiased pb-28">
 
-    <!-- الواتساب العائم (Sticky) -->
+    <!-- الواتساب العائم -->
     <a href="https://wa.me/213791059501?text=مرحبا،%20أريد%20الاستفسار%20عن%20منتج" 
-       class="fixed bottom-6 right-6 z-[9999] bg-green-500 p-4 rounded-full shadow-2xl pulse-whatsapp hover:scale-110 transition-transform">
-        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.003 3.238l-.58 2.16 2.255-.594c.969.533 2.064.814 3.19.814h.001c3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.586-5.766-5.766-5.766zM12.031 21.054c-1.127 0-2.221-.295-3.18-.853l-2.29.601.59-2.203c-1.146-1.527-1.146-3.855 0-5.382 1.547-2.062 4.14-3.237 6.88-3.237 3.99 0 7.234 3.243 7.234 7.234 0 3.99-3.244 7.234-7.234 7.234z"/></svg>
+       class="fixed bottom-6 right-6 z-[99] bg-[#25d366] p-4 rounded-full shadow-2xl pulse-whatsapp hover:scale-110 transition-transform">
+        <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.003 3.238l-.58 2.16 2.255-.594c.969.533 2.064.814 3.19.814h.001c3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.586-5.766-5.766-5.766zM12.031 21.054c-1.127 0-2.221-.295-3.18-.853l-2.29.601.59-2.203c-1.146-1.527-1.146-3.855 0-5.382 1.547-2.062 4.14-3.237 6.88-3.237 3.99 0 7.234 3.243 7.234 7.234 0 3.99-3.244 7.234-7.234 7.234z"/></svg>
     </a>
 
-    <main class="max-w-md mx-auto min-h-screen pb-20">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-[#0c0a09]/80 backdrop-blur-lg border-b border-white/5 py-4 px-6">
+        <div class="max-w-3xl mx-auto flex justify-between items-center">
+            <a href="javascript:history.back()" class="text-stone-400 hover:text-white transition font-bold text-sm tracking-widest uppercase">← رجوع</a>
+            <h1 class="text-xl font-black uppercase tracking-[0.2em] text-white">ANIS <span class="text-amber-600">LUXURY</span></h1>
+        </div>
+    </nav>
+
+    <main class="max-w-3xl mx-auto pt-16">
         
-        <!-- Gallery -->
-        <div class="relative w-full aspect-[4/5] bg-stone-900 overflow-hidden shadow-2xl">
-            <template x-for="(img, idx) in images" :key="idx">
-                <img :src="img" x-show="currentIdx === idx" class="w-full h-full object-cover transition-opacity duration-500">
-            </template>
-            <!-- Dots -->
-            <div class="absolute bottom-6 w-full flex justify-center gap-2">
+        <!-- 🌟 Advanced Image Gallery -->
+        <div class="relative w-full aspect-[4/5] bg-stone-900 overflow-hidden shadow-2xl rounded-b-[2rem]"
+             x-init="setInterval(() => nextImage(), 4000)">
+            
+            <div class="flex transition-transform duration-700 ease-in-out h-full" 
+                 :style="`transform: translateX(${activeImg * 100}%)`" dir="ltr">
                 <template x-for="(img, idx) in images" :key="idx">
-                    <button @click="currentIdx = idx" class="w-3 h-3 rounded-full border border-white/50 transition-all" :class="currentIdx === idx ? 'bg-amber-500 w-8' : 'bg-white/20'"></button>
+                    <img :src="img" class="w-full shrink-0 h-full object-cover">
+                </template>
+            </div>
+
+            <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none"></div>
+
+            <!-- Manual Controls (Arrows) -->
+            <button @click="prevImage()" class="absolute top-1/2 left-4 -translate-y-1/2 bg-black/30 p-3 rounded-full text-white/70 hover:text-white backdrop-blur-sm transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <button @click="nextImage()" class="absolute top-1/2 right-4 -translate-y-1/2 bg-black/30 p-3 rounded-full text-white/70 hover:text-white backdrop-blur-sm transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+
+            <!-- Dots -->
+            <div class="absolute bottom-6 w-full flex justify-center gap-2" dir="ltr">
+                <template x-for="(img, idx) in images" :key="idx">
+                    <button @click="activeImg = idx" class="h-1.5 rounded-full transition-all duration-300" :class="activeImg === idx ? 'w-6 bg-amber-500' : 'w-2 bg-white/40'"></button>
                 </template>
             </div>
         </div>
 
-        <!-- Info -->
-        <div class="p-6">
-            <h1 class="text-3xl font-black uppercase tracking-tight" x-text="productName"></h1>
-            <p class="text-3xl font-bold text-amber-500 mt-2" x-text="formatPrice(totalPrice)"></p>
+        <!-- 🌟 Product Header -->
+        <div class="p-6 text-center">
+            <h1 class="text-3xl md:text-4xl font-black uppercase tracking-tight text-white" x-text="productName"></h1>
+            <p class="text-3xl font-black text-amber-500 mt-2" x-text="formatPrice(totalPrice)"></p>
+        </div>
+
+        <!-- 🌟 Colors -->
+        <div class="px-6 mb-8">
+            <label class="text-xs uppercase text-stone-500 font-bold tracking-widest mb-3 block text-center">اختيار اللون:</label>
+            <div class="flex justify-center gap-3 flex-wrap">
+                <template x-for="color in colors" :key="color.name">
+                    <button @click="selectedColor = color.name" 
+                            class="px-5 py-2.5 rounded-full text-sm font-bold border flex items-center gap-2 transition-all duration-300"
+                            :class="selectedColor === color.name ? 'bg-amber-600/10 border-amber-500 text-amber-500' : 'bg-[#1c1917] border-stone-800 text-stone-400 hover:border-stone-600'">
+                        <div class="w-4 h-4 rounded-full shadow-sm" :style="`background-color: ${color.hex}`"></div>
+                        <span x-text="color.name"></span>
+                    </button>
+                </template>
+            </div>
+        </div>
+
+        <!-- 🌟 UPSELL & OFFERS (The Money Maker) -->
+        <div class="px-6 space-y-4 mb-10">
+            <!-- العرض الأول (عادي) -->
+            <div @click="setOffer(1)" 
+                 class="p-5 border-2 rounded-2xl cursor-pointer transition-all duration-300 flex justify-between items-center"
+                 :class="offer === 1 ? 'border-stone-500 bg-[#1c1917]' : 'border-stone-800 bg-black'">
+                <span class="font-bold text-stone-300">نظارة واحدة (1x)</span>
+                <span class="text-white font-black" x-text="formatPrice(basePrice)"></span>
+            </div>
             
-            <div class="mt-8">
-                <label class="text-xs uppercase text-stone-500 font-bold mb-4 block">اختر اللون:</label>
-                <div class="flex gap-4">
-                    <template x-for="color in colors" :key="color">
-                        <button @click="selectedColor = color" 
-                                class="flex-1 py-3 text-sm font-bold border rounded-lg transition-all"
-                                :class="selectedColor === color ? 'bg-amber-600 border-amber-600' : 'bg-stone-900 border-stone-700'">
-                            <span x-text="color"></span>
-                        </button>
-                    </template>
+            <!-- العرض الثاني (UPSELL WOW) -->
+            <div @click="setOffer(2)" 
+                 class="p-1 rounded-2xl cursor-pointer transition-all duration-300 relative overflow-hidden"
+                 :class="offer === 2 ? 'glow-effect scale-[1.02]' : ''">
+                
+                <!-- Animated Background for Upsell -->
+                <div class="absolute inset-0 bg-gradient-to-r from-amber-600 via-orange-500 to-amber-600 opacity-20" x-show="offer === 2"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-amber-600 via-orange-500 to-amber-600 animate-[shimmer_2s_infinite]" x-show="offer === 2" style="width: 200%;"></div>
+
+                <div class="relative bg-[#1c1917] p-5 rounded-xl border-2 z-10 transition-colors"
+                     :class="offer === 2 ? 'border-amber-500' : 'border-stone-800'">
+                    
+                    <div class="absolute -top-3 left-4 bg-amber-500 text-black text-[10px] font-black px-3 py-1 uppercase rounded-full shadow-lg animate-pulse">
+                        🔥 الأكثر طلباً
+                    </div>
+
+                    <div class="flex justify-between items-center mt-2">
+                        <div>
+                            <span class="font-black text-lg block text-amber-500">نظارتين (2x)</span>
+                            <span class="text-xs font-bold text-stone-300 block mt-1">توصيل مجاني + <span class="text-green-500">2 علب مجانية 🎁</span></span>
+                        </div>
+                        <span class="font-black text-2xl text-white" x-text="formatPrice(offer2Price)"></span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Form -->
-            <form @submit.prevent="submitOrder" class="mt-8 space-y-4">
-                <input type="text" x-model="formData.name" placeholder="الاسم الكامل" class="lux-input rounded-xl" required>
-                <input type="tel" x-model="formData.phone" placeholder="رقم الهاتف" class="lux-input rounded-xl" required>
-                <div class="grid grid-cols-2 gap-4">
-                    <select x-model="formData.wilaya" class="lux-input rounded-xl" required>
-                        <option value="" class="bg-stone-900">الولاية...</option>
-                        <template x-for="w in wilayas"><option :value="w" class="bg-stone-900" x-text="w"></option></template>
-                    </select>
-                    <input type="text" x-model="formData.commune" placeholder="البلدية" class="lux-input rounded-xl" required>
+            <!-- خيار العلبة للعرض الأول -->
+            <div x-show="offer === 1" x-collapse class="p-5 bg-[#1c1917] border border-stone-800 rounded-2xl flex justify-between items-center transition-all mt-4">
+                <div>
+                    <span class="font-black text-stone-200 block">إضافة علبة فاخرة</span>
+                    <span class="text-xs font-bold text-amber-500 block mt-1">+800 دج</span>
                 </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" x-model="box" class="sr-only peer">
+                    <div class="w-14 h-7 bg-stone-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-amber-500"></div>
+                </label>
+            </div>
+        </div>
+
+        <!-- 🌟 Checkout Form (Advanced) -->
+        <div class="px-6 pb-6">
+            <h2 class="text-xl font-black uppercase mb-6 flex items-center gap-2">
+                <span class="w-8 h-1 bg-amber-500"></span> معلومات التوصيل
+            </h2>
+
+            <form @submit.prevent="submitOrder" class="space-y-4">
+                <input type="text" x-model="formData.name" placeholder="الاسم واللقب *" class="lux-input" required>
                 
-                <button type="submit" class="w-full bg-white text-black py-5 rounded-xl font-black text-lg hover:bg-stone-200 transition-all active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                    تأكيد الطلب
-                </button>
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="tel" x-model="formData.num1" placeholder="رقم الهاتف الأول *" class="lux-input text-left" dir="ltr" required>
+                    <input type="tel" x-model="formData.num2" placeholder="رقم الهاتف الثاني (اختياري)" class="lux-input text-left" dir="ltr">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="relative">
+                        <select x-model="formData.wilaya" class="lux-input appearance-none cursor-pointer" required>
+                            <option value="" class="bg-stone-900">الولاية... *</option>
+                            <template x-for="w in wilayas"><option :value="w" class="bg-stone-900" x-text="w"></option></template>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-amber-500">▼</div>
+                    </div>
+                    <input type="text" x-model="formData.commune" placeholder="البلدية *" class="lux-input" required>
+                </div>
+
+                <textarea x-model="formData.notes" placeholder="استفسار أو ملاحظة إضافية (اختياري)..." rows="2" class="lux-input resize-none"></textarea>
+
+                <!-- 🌟 Oath & Trust (قسم العهد) -->
+                <label class="flex items-start gap-4 p-5 mt-6 bg-[#171513] border border-stone-800 rounded-2xl cursor-pointer hover:border-amber-500/50 transition-colors">
+                    <input type="checkbox" required class="mt-1 w-6 h-6 accent-amber-600 shrink-0">
+                    <div>
+                        <p class="text-sm font-black text-stone-200 mb-1 leading-snug">أقسم بالله العلي العظيم أنني جاد في طلبي، وسأرد على الهاتف لتأكيد الطلبية واستلامها.</p>
+                        <p class="text-xs text-amber-500/80 font-bold mt-2 font-['Cairo']">۞ إِنَّ اللَّهَ يَأْمُرُكُمْ أَن تُؤَدُّوا الْأَمَانَاتِ إِلَىٰ أَهْلِهَا ۞</p>
+                    </div>
+                </label>
+
+                <!-- 🌟 Sticky Submit Button -->
+                <div class="fixed bottom-0 left-0 w-full p-4 bg-gradient-to-t from-[#0c0a09] via-[#0c0a09] to-transparent z-40">
+                    <button type="submit" class="max-w-3xl mx-auto w-full relative overflow-hidden bg-amber-500 text-black py-4 rounded-2xl font-black text-lg uppercase tracking-widest transition-transform active:scale-95 shadow-[0_10px_40px_rgba(217,119,6,0.4)] group">
+                        <span class="relative z-10" x-text="isSubmitting ? 'جاري التأكيد... ⏳' : 'تأكيد الطلب الآن'"></span>
+                        <div class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent group-hover:animate-[shimmer_1.5s_infinite] z-0"></div>
+                    </button>
+                </div>
+                <!-- Space for sticky button -->
+                <div class="h-16"></div>
             </form>
         </div>
     </main>
 
     <script>
         document.addEventListener('alpine:init', () => {
-            Alpine.data('shopLogic', () => ({
-                productName: '...',
+            Alpine.data('productApp', () => ({
+                productName: 'جاري التحميل...',
                 images: [],
-                currentIdx: 0,
+                activeImg: 0,
                 colors: [],
                 selectedColor: '',
                 basePrice: 0,
-                totalPrice: 0,
-                formData: { name: '', phone: '', wilaya: '', commune: '' },
-                wilayas: ["16-الجزائر", "31-وهران", "05-باتنة", "19-سطيف", "25-قسنطينة"],
+                boxPrice: 800,
+                
+                offer: 1,
+                box: false,
+                isSubmitting: false,
+                
+                formData: { name: '', num1: '', num2: '', wilaya: '', commune: '', notes: '' },
+                wilayas: [
+                    "01 - أدرار", "02 - الشلف", "03 - الأغواط", "04 - أم البواقي", "05 - باتنة", "06 - بجاية", "07 - بسكرة", "08 - بشار", "09 - البليدة", "10 - البويرة",
+                    "11 - تمنراست", "12 - تبسة", "13 - تلمسان", "14 - تيارت", "15 - تيزي وزو", "16 - الجزائر", "17 - الجلفة", "18 - جيجل", "19 - سطيف", "20 - سعيدة",
+                    "21 - سكيكدة", "22 - سيدي بلعباس", "23 - عنابة", "24 - قالمة", "25 - قسنطينة", "26 - المدية", "27 - مستغانم", "28 - المسيلة", "29 - معسكر", "30 - ورقلة",
+                    "31 - وهران", "32 - البيض", "33 - إليزي", "34 - برج بوعريريج", "35 - بومرداس", "36 - الطارف", "37 - تندوف", "38 - تسمسيلت", "39 - الوادي", "40 - خنشلة",
+                    "41 - سوق أهراس", "42 - تيبازة", "43 - ميلة", "44 - عين الدفلى", "45 - النعامة", "46 - عين تموشنت", "47 - غرداية", "48 - غليزان", "49 - تيميمون", "50 - برج باجي مختار",
+                    "51 - أولاد جلال", "52 - بني عباس", "53 - إن صالح", "54 - إن قزام", "55 - تقرت", "56 - جانت", "57 - المغير", "58 - المنيعة"
+                ],
 
                 init() {
                     const saved = JSON.parse(localStorage.getItem('selectedProduct'));
                     if(saved) {
                         this.productName = saved.name;
                         this.images = saved.images;
-                        this.colors = saved.colors.map(c => c.name);
-                        this.selectedColor = this.colors[0];
+                        this.colors = saved.colors;
+                        if(this.colors && this.colors.length > 0) this.selectedColor = this.colors[0].name;
                         this.basePrice = parseInt(saved.price);
-                        this.totalPrice = this.basePrice;
                     }
                 },
+
+                get offer2Price() { return (this.basePrice * 2) - 1000; /* خصم 1000 دج كتحفيز */ },
+                
+                get totalPrice() {
+                    if (this.offer === 1) return this.basePrice + (this.box ? this.boxPrice : 0);
+                    return this.offer2Price;
+                },
+                
+                setOffer(selected) {
+                    this.offer = selected;
+                    if(selected === 2) this.box = true; // العلب مجانية وإجبارية في العرض الثاني
+                },
+
+                nextImage() { this.activeImg = (this.activeImg + 1) % this.images.length; },
+                prevImage() { this.activeImg = this.activeImg === 0 ? this.images.length - 1 : this.activeImg - 1; },
                 formatPrice(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' دج'; },
+                
                 async submitOrder() {
-                    // كود الإرسال للـ API
+                    if (this.isSubmitting) return;
+                    this.isSubmitting = true;
+
+                    // دمج البيانات الذكي باش يقبلها Google Sheet القديم بلا ما يخسر
+                    const finalPhone = this.formData.num1 + (this.formData.num2 ? ' / ' + this.formData.num2 : '');
+                    const finalCommune = this.formData.commune + (this.formData.notes ? ' | ملاحظة: ' + this.formData.notes : '');
+                    const finalBoxText = this.offer === 2 ? 'Oui (عرض 2 مجانا)' : (this.box ? 'Oui' : 'Non');
+
+                    const finalData = {
+                        name: this.formData.name,
+                        phone: finalPhone,
+                        wilaya: this.formData.wilaya,
+                        commune: finalCommune,
+                        model: this.productName,
+                        color: this.selectedColor,
+                        offerSelected: this.offer === 1 ? '1x' : '2x',
+                        boxIncluded: finalBoxText,
+                        totalPaid: this.totalPrice
+                    };
+                    
+                    try {
+                        // إرسال حدث البيكسل للشراء (أو بداية الدفع)
+                        if(typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout', { value: this.totalPrice, currency: 'DZD' });
+
+                        const API_URL = "https://script.google.com/macros/s/AKfycbwv6ohDtq3W8JLc4lK6vTY4UlEBWzZ2l8p_2XvGVM87y3GE7Kl7kGrm50rZZ4VdcxYb/exec";
+                        await fetch(API_URL, {
+                            method: "POST",
+                            mode: "no-cors",
+                            headers: { "Content-Type": "text/plain;charset=utf-8" },
+                            body: JSON.stringify(finalData)
+                        });
+
+                        localStorage.setItem('currentOrder', JSON.stringify(finalData));
+                        window.location.href = 'thank-you.html';
+                    } catch (error) {
+                        alert("حدث خطأ في الشبكة، يرجى المحاولة مرة أخرى.");
+                        this.isSubmitting = false;
+                    }
                 }
             }))
         })
     </script>
 </body>
 </html>
+
